@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Records - WorkNest</title>
+    <link rel="stylesheet" href="admin-dashboard.css">
+    <link rel="stylesheet" href="attendance-records.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">W</div>
+            <div class="logo-text">
+                <span class="logo-name">WorkNest</span>
+                <span class="logo-subtitle">HR Portal</span>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="admin-dashboard.html" class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                Dashboard
+            </a>
+            <a href="employee-management.html" class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                Employee Management
+            </a>
+            <a href="department-management.html" class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M3 9h18M9 21V9"/>
+                </svg>
+                Department Management
+            </a>
+            <a href="attendance-records.html" class="nav-item active">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                Attendance Records
+            </a>
+            <a href="leave-request.html" class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                </svg>
+                Leave Requests
+            </a>
+            <a href="payroll-management.html" class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="1" x2="12" y2="23"/>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                Payroll Management
+            </a>
+            <a href="reports.html" class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                Reports
+            </a>
+            <a href="system-settings.html" class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 1v6m0 6v6"/>
+                    <path d="M1 12h6m6 0h6"/>
+                    <path d="M4.22 4.22l4.24 4.24m5.66 5.66l4.24 4.24"/>
+                    <path d="M19.78 4.22l-4.24 4.24m-5.66 5.66l-4.24 4.24"/>
+                </svg>
+                System Settings
+            </a>
+        </nav>
+
+        <a href="#" onclick="handleLogout(); return false;" class="logout-btn">
+            <svg class="logout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Logout
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-content">
+                <h1 class="page-title">Attendance Records</h1>
+                <p class="page-subtitle">Monitor and manage employee attendance</p>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-section">
+            <div class="attendance-stat-card">
+                <div class="stat-icon green-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-label">Total Present Today</p>
+                    <h2 class="stat-number">35</h2>
+                </div>
+            </div>
+
+            <div class="attendance-stat-card">
+                <div class="stat-icon red-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-label">Total Absent Today</p>
+                    <h2 class="stat-number">3</h2>
+                </div>
+            </div>
+
+            <div class="attendance-stat-card">
+                <div class="stat-icon yellow-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-label">Total Late Today</p>
+                    <h2 class="stat-number">3</h2>
+                </div>
+            </div>
+
+            <div class="attendance-stat-card">
+                <div class="stat-icon purple-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-label">Attendance Rate</p>
+                    <h2 class="stat-number">85.4%</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-container">
+            <h3 class="filters-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                </svg>
+                Filters
+            </h3>
+            <div class="filters-grid">
+                <div class="filter-item">
+                    <label>Employee</label>
+                    <select class="filter-select">
+                        <option>All employees</option>
+                        <option>Juan Carlos Dela Cruz</option>
+                        <option>Maria Santos</option>
+                        <option>Jose Rizal Mercado</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label>Date From</label>
+                    <input type="date" class="filter-input" value="2025-01-01">
+                </div>
+                <div class="filter-item">
+                    <label>Date To</label>
+                    <input type="date" class="filter-input" value="2025-01-20">
+                </div>
+                <div class="filter-item">
+                    <label>Department</label>
+                    <select class="filter-select">
+                        <option>All departments</option>
+                        <option>Information Technology</option>
+                        <option>Human Resources</option>
+                        <option>Finance</option>
+                        <option>Marketing</option>
+                        <option>Operations</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label>Status</label>
+                    <select class="filter-select">
+                        <option>Present</option>
+                        <option>Absent</option>
+                        <option>Late</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button class="apply-btn">Apply Filters</button>
+                <button class="reset-btn">Reset</button>
+            </div>
+        </div>
+
+        <!-- Attendance Records Table -->
+        <div class="records-section">
+            <div class="records-header">
+                <h3 class="records-title">Attendance Records</h3>
+                <div class="export-buttons">
+                    <button class="export-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Download CSV
+                    </button>
+                    <button class="export-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Download PDF
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="attendance-table">
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Employee ID</th>
+                            <th>Department</th>
+                            <th>Date</th>
+                            <th>Time In</th>
+                            <th>Time Out</th>
+                            <th>Total Hours</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="employee-info">
+                                    <div class="avatar" style="background: #FFB74D;">JC</div>
+                                    <span>Juan Carlos Dela Cruz</span>
+                                </div>
+                            </td>
+                            <td>EMP001</td>
+                            <td>Information Technology</td>
+                            <td>Jan 20, 2025</td>
+                            <td>08:45</td>
+                            <td>17:30</td>
+                            <td>8.75 hrs</td>
+                            <td><span class="status-badge present">Present</span></td>
+                            <td>On time</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="employee-info">
+                                    <div class="avatar" style="background: #E57373;">MS</div>
+                                    <span>Maria Santos</span>
+                                </div>
+                            </td>
+                            <td>EMP002</td>
+                            <td>Human Resources</td>
+                            <td>Jan 20, 2025</td>
+                            <td>08:30</td>
+                            <td>17:00</td>
+                            <td>8.5 hrs</td>
+                            <td><span class="status-badge present">Present</span></td>
+                            <td>On time</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="employee-info">
+                                    <div class="avatar" style="background: #FF8A65;">JM</div>
+                                    <span>Jose Rizal Mercado</span>
+                                </div>
+                            </td>
+                            <td>EMP003</td>
+                            <td>Finance</td>
+                            <td>Jan 20, 2025</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td><span class="status-badge absent">Absent</span></td>
+                            <td>No show</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="employee-info">
+                                    <div class="avatar" style="background: #81C784;">AR</div>
+                                    <span>Ana Marie Reyes</span>
+                                </div>
+                            </td>
+                            <td>EMP004</td>
+                            <td>Marketing</td>
+                            <td>Jan 20, 2025</td>
+                            <td>09:15</td>
+                            <td>17:15</td>
+                            <td>8 hrs</td>
+                            <td><span class="status-badge late">Late</span></td>
+                            <td>Late arrival</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="employee-info">
+                                    <div class="avatar" style="background: #64B5F6;">PG</div>
+                                    <span>Pedro Gonzales</span>
+                                </div>
+                            </td>
+                            <td>EMP005</td>
+                            <td>Operations</td>
+                            <td>Jan 20, 2025</td>
+                            <td>08:40</td>
+                            <td>17:10</td>
+                            <td>8.5 hrs</td>
+                            <td><span class="status-badge present">Present</span></td>
+                            <td>On time</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="employee-info">
+                                    <div class="avatar" style="background: #BA68C8;">SG</div>
+                                    <span>Sofia Cruz Garcia</span>
+                                </div>
+                            </td>
+                            <td>EMP006</td>
+                            <td>Information Technology</td>
+                            <td>Jan 20, 2025</td>
+                            <td>08:55</td>
+                            <td>17:20</td>
+                            <td>8.42 hrs</td>
+                            <td><span class="status-badge present">Present</span></td>
+                            <td>On time</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <div class="pagination-info">Showing 1-6 of 50+ records</div>
+                <div class="pagination-controls">
+                    <button class="page-btn" disabled>Previous</button>
+                    <button class="page-btn">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>

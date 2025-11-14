@@ -1,0 +1,228 @@
+/* Page Header */
+.page-header {
+background: white;
+padding: 30px 40px;
+border-bottom: 1px solid #E0E0E0;
+}
+
+.header-content {
+flex: 1;
+}
+
+.page-title {
+font-size: 28px;
+font-weight: 700;
+color: #2C3E50;
+margin-bottom: 5px;
+}
+
+.page-subtitle {
+font-size: 14px;
+color: #7F8C8D;
+}
+
+/* Tabs Container */
+.tabs-container {
+background: white;
+padding: 20px 40px 0;
+display: flex;
+gap: 8px;
+border-bottom: 2px solid #F0F0F0;
+}
+
+.tab-btn {
+display: flex;
+align-items: center;
+gap: 8px;
+padding: 12px 20px;
+background: transparent;
+border: none;
+border-bottom: 3px solid transparent;
+font-size: 14px;
+font-weight: 600;
+color: #7F8C8D;
+cursor: pointer;
+transition: all 0.3s ease;
+position: relative;
+margin-bottom: -2px;
+}
+
+.tab-btn:hover {
+color: #2C3E50;
+background: #F8F9FA;
+}
+
+.tab-btn.active {
+color: #2196F3;
+border-bottom-color: #2196F3;
+background: #F8FBFF;
+}
+
+.tab-count {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+min-width: 24px;
+height: 24px;
+padding: 0 8px;
+background: #E0E0E0;
+color: #5D6D7E;
+border-radius: 12px;
+font-size: 12px;
+font-weight: 700;
+}
+
+.tab-btn.active .tab-count {
+background: #E3F2FD;
+color: #2196F3;
+}
+
+/* Table Section */
+.table-section {
+padding: 20px 40px 40px;
+}
+
+.table-container {
+background: white;
+border-radius: 12px;
+overflow: hidden;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.leave-table {
+width: 100%;
+border-collapse: collapse;
+}
+
+.leave-table thead {
+background: #F8F9FA;
+}
+
+.leave-table th {
+padding: 16px 20px;
+text-align: left;
+font-size: 13px;
+font-weight: 600;
+color: #5D6D7E;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.leave-table tbody tr {
+border-bottom: 1px solid #F0F0F0;
+transition: background 0.2s ease;
+}
+
+.leave-table tbody tr:hover {
+background: #F8F9FA;
+}
+
+.leave-table tbody tr:last-child {
+border-bottom: none;
+}
+
+.leave-table td {
+padding: 16px 20px;
+font-size: 14px;
+color: #2C3E50;
+}
+
+/* Leave Type Badge */
+.leave-type {
+display: inline-block;
+padding: 6px 12px;
+border-radius: 20px;
+font-size: 12px;
+font-weight: 600;
+}
+
+.leave-type.vacation {
+background: #E3F2FD;
+color: #2196F3;
+}
+
+.leave-type.sick {
+background: #FCE4EC;
+color: #E91E63;
+}
+
+.leave-type.personal {
+background: #F3E5F5;
+color: #9C27B0;
+}
+
+.leave-type.emergency {
+background: #FFF3E0;
+color: #FF9800;
+}
+
+/* Action Buttons */
+.action-buttons {
+display: flex;
+gap: 8px;
+}
+
+.action-btn {
+width: 32px;
+height: 32px;
+border: none;
+background: #F8F9FA;
+border-radius: 6px;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: all 0.2s ease;
+}
+
+.action-btn svg {
+width: 16px;
+height: 16px;
+color: #5D6D7E;
+}
+
+.action-btn.view:hover {
+background: #E3F2FD;
+}
+
+.action-btn.view:hover svg {
+color: #2196F3;
+}
+
+.action-btn.approve:hover {
+background: #E8F5E9;
+}
+
+.action-btn.approve:hover svg {
+color: #4CAF50;
+}
+
+.action-btn.decline:hover {
+background: #FFEBEE;
+}
+
+.action-btn.decline:hover svg {
+color: #F44336;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+.tabs-container {
+overflow-x: auto;
+}
+.table-container {
+overflow-x: auto;
+}
+
+.leave-table {
+min-width: 900px;
+}
+}
+
+@media (max-width: 768px) {
+.tabs-container {
+padding: 20px 20px 0;
+}
+.table-section {
+padding: 20px;
+}
