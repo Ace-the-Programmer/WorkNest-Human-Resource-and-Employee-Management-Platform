@@ -1,0 +1,230 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    height: 100vh;
+    background: linear-gradient(135deg, #4A90E2 0%, #7B68EE 100%);
+    overflow-x: hidden;
+}
+
+/* Back Button */
+.back-btn {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    z-index: 100;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateX(-3px);
+}
+
+.back-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Container */
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.content {
+    text-align: center;
+    max-width: 1200px;
+    animation: fadeIn 0.6s ease-in;
+}
+
+/* Header */
+.title {
+    font-size: 48px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 20px;
+    color: white;
+    opacity: 0.9;
+    margin-bottom: 50px;
+}
+
+/* Portal Cards Container */
+.portal-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin: 0 auto;
+}
+
+/* Portal Card */
+.portal-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.portal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* Icon Circle */
+.icon-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 25px;
+}
+
+.blue-bg {
+    background: #E3F2FD;
+}
+
+.green-bg {
+    background: #E8F5E9;
+}
+
+.icon {
+    width: 45px;
+    height: 45px;
+}
+
+.blue-bg .icon {
+    color: #2196F3;
+}
+
+.green-bg .icon {
+    color: #4CAF50;
+}
+
+/* Card Title */
+.card-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2C3E50;
+    margin-bottom: 15px;
+}
+
+/* Card Description */
+.card-description {
+    font-size: 15px;
+    color: #7F8C8D;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    min-height: 48px;
+}
+
+/* Portal Button */
+.portal-btn {
+    width: 100%;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.blue-btn {
+    background: #2196F3;
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.blue-btn:hover {
+    background: #1976D2;
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+    transform: translateY(-2px);
+}
+
+.green-btn {
+    background: #4CAF50;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.green-btn:hover {
+    background: #388E3C;
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    transform: translateY(-2px);
+}
+
+.portal-btn:active {
+    transform: translateY(0);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .back-btn {
+        top: 20px;
+        left: 20px;
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    .title {
+        font-size: 32px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+
+    .portal-cards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .portal-card {
+        padding: 30px 20px;
+    }
+
+    .card-title {
+        font-size: 20px;
+    }
+
+    .card-description {
+        font-size: 14px;
+    }
+}

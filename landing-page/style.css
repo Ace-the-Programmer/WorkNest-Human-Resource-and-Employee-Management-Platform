@@ -1,0 +1,200 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    height: 100vh;
+    background: linear-gradient(135deg, #4A90E2 0%, #7B68EE 50%, #5FB3B3 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.content {
+    text-align: center;
+    animation: fadeIn 1s ease-in;
+}
+
+/* Icon Box */
+.icon-box {
+    width: 90px;
+    height: 90px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.briefcase-icon {
+    width: 50px;
+    height: 50px;
+    color: #4A90E2;
+}
+
+/* Title */
+.title {
+    font-size: 72px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+}
+
+/* Subtitle */
+.subtitle {
+    font-size: 26px;
+    font-weight: 400;
+    color: white;
+    margin-bottom: 20px;
+    opacity: 0.95;
+}
+
+/* Description */
+.description {
+    font-size: 18px;
+    color: white;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+/* Login Button */
+.login-btn {
+    background: #2ECC71;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 16px 40px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+}
+
+.login-btn:hover {
+    background: #27AE60;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(46, 204, 113, 0.4);
+}
+
+.login-btn:active {
+    transform: translateY(0);
+}
+
+.btn-icon {
+    width: 22px;
+    height: 22px;
+    color: white;
+}
+
+/* Team Card */
+.team-card {
+    background: white;
+    padding: 30px 50px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.team-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2C3E50;
+    margin-bottom: 20px;
+}
+
+.team-leader,
+.team-members {
+    font-size: 16px;
+    color: #5D6D7E;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.team-members {
+    margin-bottom: 0;
+}
+
+.label {
+    font-weight: 600;
+    color: #2C3E50;
+}
+
+.name {
+    color: #5D6D7E;
+}
+
+/* Footer */
+.footer {
+    position: absolute;
+    bottom: 30px;
+    color: white;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .title {
+        font-size: 48px;
+    }
+    
+    .subtitle {
+        font-size: 20px;
+    }
+    
+    .description {
+        font-size: 16px;
+        padding: 0 20px;
+    }
+    
+    .login-btn {
+        font-size: 16px;
+        padding: 14px 32px;
+    }
+    
+    .team-card {
+        padding: 25px 30px;
+        margin: 0 20px;
+    }
+    
+    .team-title {
+        font-size: 20px;
+    }
+    
+    .team-leader,
+    .team-members {
+        font-size: 14px;
+    }
+}
