@@ -7,7 +7,7 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     min-height: 100vh;
-    background: linear-gradient(135deg, #4A90E2 0%, #7B68EE 100%);
+    background: linear-gradient(135deg, #2ECC71 0%, #3DBAA2 50%, #4A90E2 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,7 +64,7 @@ body {
 .icon-circle {
     width: 80px;
     height: 80px;
-    background: #E3F2FD;
+    background: #E8F5E9;
     border-radius: 16px;
     display: flex;
     justify-content: center;
@@ -72,10 +72,10 @@ body {
     margin: 0 auto 25px;
 }
 
-.user-icon {
+.card-icon {
     width: 40px;
     height: 40px;
-    color: #2196F3;
+    color: #4CAF50;
 }
 
 /* Title */
@@ -134,7 +134,7 @@ body {
 
 .input-wrapper input:focus {
     outline: none;
-    border-color: #2196F3;
+    border-color: #4CAF50;
     background: white;
 }
 
@@ -162,7 +162,7 @@ body {
 }
 
 .toggle-password:hover .eye-icon {
-    color: #2196F3;
+    color: #4CAF50;
 }
 
 /* Remember Me */
@@ -177,7 +177,7 @@ body {
     width: 18px;
     height: 18px;
     cursor: pointer;
-    accent-color: #2196F3;
+    accent-color: #4CAF50;
 }
 
 .remember-me label {
@@ -190,7 +190,7 @@ body {
 .login-btn {
     width: 100%;
     padding: 14px;
-    background: #2196F3;
+    background: #4CAF50;
     color: white;
     border: none;
     border-radius: 10px;
@@ -198,13 +198,13 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
 }
 
 .login-btn:hover {
-    background: #1976D2;
+    background: #388E3C;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
 }
 
 .login-btn:active {
