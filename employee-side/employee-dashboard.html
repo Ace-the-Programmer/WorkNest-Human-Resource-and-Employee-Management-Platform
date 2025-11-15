@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard - WorkNest</title>
+    <link rel="stylesheet" href="employee-dashboard.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">W</div>
+            <div class="logo-text">
+                <span class="logo-name">WorkNest</span>
+                <span class="logo-subtitle">Employee Portal</span>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="employee-dashboard.html" class="nav-item active">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                Dashboard
+            </a>
+            <a href="employee-attendance.html" class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                My Attendance
+            </a>
+            <a href="employee-leave-requests.html" class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/>
+                    <polyline points="2 21 12 13 22 21"/>
+                </svg>
+                My Leave Requests
+            </a>
+            <a href="employee-payroll.html" class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="1" x2="12" y2="23"/>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                My Payroll
+            </a>
+            <a href="employee-profile-settings.html" class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                Profile Settings
+            </a>
+        </nav>
+
+       <a href="#" onclick="handleLogout(); return false;" class="logout-btn">
+            <svg class="logout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Logout
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Welcome Header -->
+        <div class="welcome-header">
+            <h1 class="welcome-title">Welcome back, Juan Carlos! 👋</h1>
+            <p class="welcome-subtitle">Here's what's happening with your work today.</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue-bg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <p class="stat-label">Total Days Worked</p>
+                    <h2 class="stat-value">18</h2>
+                    <p class="stat-period">This month</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green-bg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <p class="stat-label">Approved Leaves</p>
+                    <h2 class="stat-value">3</h2>
+                    <p class="stat-period">This year</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon yellow-bg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <p class="stat-label">Pending Requests</p>
+                    <h2 class="stat-value">1</h2>
+                    <p class="stat-period">Awaiting approval</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon purple-bg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <p class="stat-label">Current Salary</p>
+                    <h2 class="stat-value">₱85,000</h2>
+                    <p class="stat-period">Monthly</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Calendar -->
+        <div class="calendar-section">
+            <h2 class="calendar-title">Monthly Attendance - January 2025</h2>
+            <div class="calendar">
+                <div class="calendar-header">
+                    <div class="day-label">Sun</div>
+                    <div class="day-label">Mon</div>
+                    <div class="day-label">Tue</div>
+                    <div class="day-label">Wed</div>
+                    <div class="day-label">Thu</div>
+                    <div class="day-label">Fri</div>
+                    <div class="day-label">Sat</div>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day present">1</div>
+                    <div class="calendar-day present">2</div>
+                    <div class="calendar-day absent">3</div>
+                    <div class="calendar-day weekend">4</div>
+                    <div class="calendar-day present">5</div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day present">8</div>
+                    <div class="calendar-day present">9</div>
+                    <div class="calendar-day present">10</div>
+                    <div class="calendar-day weekend">11</div>
+                    <div class="calendar-day present">12</div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day present">15</div>
+                    <div class="calendar-day present">16</div>
+                    <div class="calendar-day present">17</div>
+                    <div class="calendar-day leave">18</div>
+                    <div class="calendar-day late">19</div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day empty">21</div>
+                    <div class="calendar-day empty">22</div>
+                    <div class="calendar-day empty">23</div>
+                    <div class="calendar-day empty">24</div>
+                    <div class="calendar-day empty">25</div>
+                    <div class="calendar-day empty">26</div>
+                    <div class="calendar-day empty">27</div>
+                    <div class="calendar-day empty">28</div>
+                    <div class="calendar-day empty">29</div>
+                    <div class="calendar-day empty">30</div>
+                    <div class="calendar-day empty">31</div>
+                </div>
+            </div>
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <span class="legend-color present"></span>
+                    <span>Present</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color absent"></span>
+                    <span>Absent</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color late"></span>
+                    <span>Late</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color leave"></span>
+                    <span>Leave</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color weekend"></span>
+                    <span>Weekend</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Cards -->
+        <div class="action-cards">
+            <div class="action-card">
+                <div class="action-icon-box yellow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/>
+                        <polyline points="2 21 12 13 22 21"/>
+                    </svg>
+                </div>
+                <div class="action-content">
+                    <h3 class="action-title">Need time off?</h3>
+                    <p class="action-desc">Submit a leave request for approval</p>
+                </div>
+                <button class="action-button orange-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    Request Leave
+                </button>
+            </div>
+
+            <div class="action-card">
+                <div class="action-icon-box green">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                </div>
+                <div class="action-content">
+                    <h3 class="action-title">Check your payslip</h3>
+                    <p class="action-desc">View and download your latest payslip</p>
+                </div>
+                <button class="action-button green-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    View Latest Payslip
+                </button>
+            </div>
+        </div>
+    </div>
+     <script src="employee-dashboard.js"></script>
+</body>
+</html>
