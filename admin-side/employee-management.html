@@ -6,9 +6,15 @@
     <title>Employee Management - WorkNest</title>
     <link rel="stylesheet" href="admin-dashboard.css">
     <link rel="stylesheet" href="employee-management.css">
+    <style>
+    .modal { position: fixed; z-index: 10; left: 0; top: 0; width: 100vw; height: 100vh; background:rgba(0,0,0,0.25); display: none; justify-content: center; align-items: center;}
+    .modal-content { background: #fff; margin:auto; padding:20px; border-radius:6px; width:320px; }
+    .close { float: right; cursor: pointer; font-size: 24px; }
+    #addEmployeeForm input, #addEmployeeForm button { display:block; margin:8px 0; width:100%; padding:8px;}
+    </style>
 </head>
 <body>
-    <!-- Sidebar (same as dashboard) -->
+    <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">
             <div class="logo-icon">W</div>
@@ -17,7 +23,6 @@
                 <span class="logo-subtitle">HR Portal</span>
             </div>
         </div>
-
         <nav class="nav-menu">
             <a href="admin-dashboard.html" class="nav-item">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -90,7 +95,6 @@
                 System Settings
             </a>
         </nav>
-
         <a href="#" onclick="handleLogout(); return false;" class="logout-btn">
             <svg class="logout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -100,7 +104,6 @@
             Logout
         </a>
     </div>
-
     <!-- Main Content -->
     <div class="main-content">
         <!-- Page Header -->
@@ -117,7 +120,6 @@
                 Add Employee
             </button>
         </div>
-
         <!-- Filters Section -->
         <div class="filters-section">
             <div class="search-box">
@@ -143,7 +145,6 @@
                 </select>
             </div>
         </div>
-
         <!-- Employee Table -->
         <div class="table-container">
             <table class="employee-table">
@@ -158,122 +159,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <div class="employee-info">
-                                <div class="avatar" style="background: #FFB74D;">JC</div>
-                                <div>
-                                    <div class="employee-name">Juan Carlos Dela Cruz</div>
-                                    <div class="employee-email">juan.delacruz@worknest.ph</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>EMP001</td>
-                        <td>Information Technology</td>
-                        <td>Senior Software Engineer</td>
-                        <td><span class="status-badge active">Active</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-icon" title="View">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                        <circle cx="12" cy="12" r="3"/>
-                                    </svg>
-                                </button>
-                                <button class="action-icon" title="Edit">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                                    </svg>
-                                </button>
-                                <button class="action-icon delete" title="Delete">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="3 6 5 6 21 6"/>
-                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="employee-info">
-                                <div class="avatar" style="background: #E57373;">MS</div>
-                                <div>
-                                    <div class="employee-name">Maria Santos</div>
-                                    <div class="employee-email">maria.santos@worknest.ph</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>EMP002</td>
-                        <td>Human Resources</td>
-                        <td>HR Manager</td>
-                        <td><span class="status-badge active">Active</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-icon" title="View">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                        <circle cx="12" cy="12" r="3"/>
-                                    </svg>
-                                </button>
-                                <button class="action-icon" title="Edit">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                                    </svg>
-                                </button>
-                                <button class="action-icon delete" title="Delete">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="3 6 5 6 21 6"/>
-                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="employee-info">
-                                <div class="avatar" style="background: #FF8A65;">JM</div>
-                                <div>
-                                    <div class="employee-name">Jose Rizal Mercado</div>
-                                    <div class="employee-email">jose.mercado@worknest.ph</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>EMP003</td>
-                        <td>Finance</td>
-                        <td>Finance Director</td>
-                        <td><span class="status-badge active">Active</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-icon" title="View">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                        <circle cx="12" cy="12" r="3"/>
-                                    </svg>
-                                </button>
-                                <button class="action-icon" title="Edit">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                                    </svg>
-                                </button>
-                                <button class="action-icon delete" title="Delete">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="3 6 5 6 21 6"/>
-                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Add more rows as needed -->
+                    <!-- This will be filled by JS -->
                 </tbody>
             </table>
         </div>
-
         <!-- Pagination -->
         <div class="pagination">
             <div class="pagination-info">Showing 1-10 of 10 employees</div>
@@ -283,7 +172,30 @@
             </div>
         </div>
     </div>
+ <!-- Add Employee Modal -->
+<div id="addEmployeeModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <h2 id="modalTitle">Add New Employee</h2>
+    <form id="addEmployeeForm">
+      <input type="text" name="first_name" placeholder="First Name" required />
+      <input type="text" name="last_name" placeholder="Last Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="text" name="department_id" placeholder="Department ID" required />
+      <input type="text" name="position" placeholder="Position" required />
+      <input type="date" name="date_hired" placeholder="Date Hired" required />
+      <input type="number" step="0.01" name="salary" placeholder="Salary" required />
+      <input type="password" name="password" placeholder="Password" required />
+    <select name="status" required>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+    </select>
+      <button type="submit" id="submitBtn">Add Employee</button>
+    </form>
+  </div>
+</div>
+<script src="employee-management.js"></script>
+<script src="admin-dashboard.js"></script>
 
-    <script src="admin-dashboard.js"></script>
 </body>
 </html>

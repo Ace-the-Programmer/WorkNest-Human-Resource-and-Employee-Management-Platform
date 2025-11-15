@@ -322,3 +322,7 @@
         min-width: 900px;
     }
 }
+.modal { position: fixed; z-index: 10; left: 0; top: 0; width: 100vw; height: 100vh; background:rgba(0,0,0,0.25); display: none; justify-content: center; align-items: center;}
+.modal-content { background: #fff; margin:auto; padding:20px; border-radius:6px; width:320px; }
+.close { float: right; cursor: pointer; font-size: 24px; }
+#addEmployeeForm input, #addEmployeeForm button { display:block; margin:8px 0; width:100%; padding:8px;}
