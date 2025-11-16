@@ -480,6 +480,25 @@ app.get('/export/users/xml', (req, res) => {
         res.send(xml);
     });
 });
+// LOGIN ROUTE
+app.post('/api/login', (req, res) => {
+  const { identifier, password } = req.body; // identifier can be username or email
+  db.query(
+    'SELECT * FROM users WHERE (username=? OR email=?) AND password=?',
+    [identifier, identifier, password],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: 'Server error' });
+      if (results.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
+      const user = results[0];
+      res.json({
+        id: user.id,
+        employee_id: user.employee_id,
+        username: user.username,
+        role: user.role
+      });
+    }
+  );
+});
 
 // START SERVER (always last)
 app.listen(PORT, () => {
