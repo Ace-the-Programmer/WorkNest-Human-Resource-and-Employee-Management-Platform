@@ -8,11 +8,9 @@ accountTypeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         // Remove active class from all
         accountTypeButtons.forEach(b => b.classList.remove('active'));
-        
         // Add active to clicked
         btn.classList.add('active');
         selectedAccountType = btn.dataset.type;
-        
         // Show/hide department field
         if (selectedAccountType === 'Employee') {
             departmentField.style.display = 'block';

@@ -21,16 +21,28 @@ function togglePassword() {
 // Handle Login Form Submit
 function handleLogin(event) {
     event.preventDefault();
-    
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    const remember = document.getElementById('remember').checked;
-    
-    // Store login info for dashboard
-    sessionStorage.setItem('isLoggedIn', 'true');
-    sessionStorage.setItem('username', username);
-    sessionStorage.setItem('userType', 'admin');
-    
-    // Redirect to admin dashboard
-    window.location.href = 'admin-dashboard.html';
+
+    fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier: username, password: password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.role === 'HR/Admin') {
+            // Save user data, if needed
+            localStorage.setItem('user', JSON.stringify(data));
+            window.location.href = 'admin-dashboard.html';
+        } else if (data && data.error) {
+            alert(data.error);
+        } else {
+            alert('Access denied. This portal is for HR/Admin only.');
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        alert('Login failed. Please try again.');
+    });
 }
