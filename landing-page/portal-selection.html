@@ -52,7 +52,25 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Signup Button (centered under both cards) -->
+            <div class="signup-wrap">
+  <p class="signup-label">New to WorkNest?</p>
+  <button class="portal-btn signup-btn" id="signupBtn">
+  Create an Account
+</button>
+            </div>
         </div>
     </div>
+    <script>
+document.getElementById('signupBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.body.classList.add('fade-out');
+    setTimeout(function() {
+        window.location.href = 'sign-up.html';
+    }, 400); // Match the fade time in CSS
+});
+</script>
+
 </body>
 </html>

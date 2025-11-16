@@ -475,3 +475,40 @@ app.get('/export/users/xml', (req, res) => {
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+// --- SIGNUP ROUTE ---
+app.post('/signup', (req, res) => {
+    const { first_name, last_name, email, password, account_type, department_id } = req.body;
+    
+    // Insert into employees table
+    db.query(
+        'INSERT INTO employees (first_name, last_name, email, password, department_id, position, status, date_hired) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())',
+        [first_name, last_name, email, password, department_id || null, 'New Employee', 'Active'],
+        (err, result) => {
+            if (err) {
+                console.error('Error creating employee:', err);
+                return res.status(500).json({ success: false, error: 'Failed to create account' });
+            }
+            
+            const employee_id = result.insertId;
+            
+            // Insert into users table
+            db.query(
+                'INSERT INTO users (username, password, role, employee_id) VALUES (?, ?, ?, ?)',
+                [email, password, account_type, employee_id],
+                (err2, result2) => {
+                    if (err2) {
+                        console.error('Error creating user:', err2);
+                        return res.status(500).json({ success: false, error: 'Failed to create user account' });
+                    }
+                    
+                    res.json({ 
+                        success: true, 
+                        message: 'Account created successfully!',
+                        employee_id: employee_id,
+                        role: account_type
+                    });
+                }
+            );
+        }
+    );
+});
