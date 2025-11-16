@@ -40,29 +40,64 @@ app.get('/', (req, res) => {
     res.json({ message: 'WorkNest API is running!' });
 });
 
-// --- EMPLOYEES MODULE ---
-// CREATE new employee
+/* ------- LEAVE REQUESTS MODULE ------- */
+// CREATE Leave Request (employee-side)
+app.post('/api/leave-requests', (req, res) => {
+    const { employee_id, leave_type, start_date, end_date, reason } = req.body;
+    db.query(
+        'INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, reason, status, date_filed) VALUES (?, ?, ?, ?, ?, "Pending", NOW())',
+        [employee_id, leave_type, start_date, end_date, reason],
+        (err, result) => {
+            if (err) return res.status(500).json({ error: err });
+            res.json({ id: result.insertId, ...req.body, status: "Pending", date_filed: new Date() });
+        }
+    );
+});
+// GET ALL Leave Requests (admin-side)
+app.get('/api/leave-requests', (req, res) => {
+    db.query('SELECT * FROM leave_requests', (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json(results);
+    });
+});
+// UPDATE STATUS ONLY (admin approve/decline)
+app.put('/api/leave-requests/:id', (req, res) => {
+    const { status } = req.body;
+    db.query(
+        'UPDATE leave_requests SET status=? WHERE id=?',
+        [status, req.params.id],
+        (err, result) => {
+            if (err) return res.status(500).json({ error: err });
+            res.json({ message: 'Leave request status updated' });
+        }
+    );
+});
+// GET by employee_id (employee-side)
+app.get('/api/leave-requests/employee/:employee_id', (req, res) => {
+    db.query('SELECT * FROM leave_requests WHERE employee_id=?', [req.params.employee_id], (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json(results);
+    });
+});
+
+/* ------- EMPLOYEES MODULE ------- */
 app.post('/employees', (req, res) => {
     const { first_name, last_name, email, department_id, position, date_hired, salary, password, status } = req.body;
-db.query(
-  'INSERT INTO employees (first_name, last_name, email, department_id, position, date_hired, salary, password, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-  [first_name, last_name, email, department_id, position, date_hired, salary, password, status],
+    db.query(
+        'INSERT INTO employees (first_name, last_name, email, department_id, position, date_hired, salary, password, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [first_name, last_name, email, department_id, position, date_hired, salary, password, status],
         (err, result) => {
             if (err) return res.status(500).json({ error: err });
             res.json({ id: result.insertId, ...req.body });
         }
     );
 });
-
-// READ all employees
 app.get('/employees', (req, res) => {
     db.query('SELECT * FROM employees', (err, results) => {
         if (err) return res.status(500).json({ error: err });
         res.json(results);
     });
 });
-
-// READ a single employee by ID
 app.get('/employees/:id', (req, res) => {
     db.query('SELECT * FROM employees WHERE id = ?', [req.params.id], (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -70,21 +105,17 @@ app.get('/employees/:id', (req, res) => {
         res.json(results[0]);
     });
 });
-
-// UPDATE employee by ID
 app.put('/employees/:id', (req, res) => {
     const { first_name, last_name, email, department_id, position, date_hired, salary, password, status } = req.body;
-db.query(
-  'INSERT INTO employees (first_name, last_name, email, department_id, position, date_hired, salary, password, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-  [first_name, last_name, email, department_id, position, date_hired, salary, password, status],
+    db.query(
+        'UPDATE employees SET first_name=?, last_name=?, email=?, department_id=?, position=?, date_hired=?, salary=?, password=?, status=? WHERE id=?',
+        [first_name, last_name, email, department_id, position, date_hired, salary, password, status, req.params.id],
         (err, result) => {
             if (err) return res.status(500).json({ error: err });
             res.json({ message: 'Employee updated' });
         }
     );
 });
-
-// DELETE employee by ID
 app.delete('/employees/:id', (req, res) => {
     db.query('DELETE FROM employees WHERE id=?', [req.params.id], (err, result) => {
         if (err) return res.status(500).json({ error: err });
@@ -92,27 +123,6 @@ app.delete('/employees/:id', (req, res) => {
     });
 });
 
-// --- DEPARTMENTS MODULE ---
-// CREATE new department
-app.post('/departments', (req, res) => {
-    const { name, description } = req.body;
-    db.query(
-        'INSERT INTO departments (name, description) VALUES (?, ?)',
-        [name, description],
-        (err, result) => {
-            if (err) return res.status(500).json({ error: err });
-            res.json({ id: result.insertId, name, description });
-        }
-    );
-});
-
-// READ all departments
-app.get('/departments', (req, res) => {
-    db.query('SELECT * FROM departments', (err, results) => {
-        if (err) return res.status(500).json({ error: err });
-        res.json(results);
-    });
-});
 
 // READ single department by ID
 app.get('/departments/:id', (req, res) => {
@@ -194,7 +204,7 @@ app.delete('/attendance/:id', (req, res) => {
         if (err) return res.status(500).json({ error: err });
         res.json({ message: 'Attendance deleted' });
     });
-});
+}); 
 
 // --- LEAVE REQUESTS MODULE ---
 app.post('/leave_requests', (req, res) => {

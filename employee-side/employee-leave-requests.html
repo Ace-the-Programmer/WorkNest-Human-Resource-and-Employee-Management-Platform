@@ -225,6 +225,29 @@
             </div>
         </div>
     </div>
+<div id="leaveModal" class="modal" style="display:none;">
+  <div class="modal-content">
+      <span class="close-btn" id="closeLeaveModal">&times;</span>
+      <h2>Apply for Leave</h2>
+      <form id="leaveRequestForm">
+        <label>Leave Type:</label>
+        <select id="leaveType" required>
+          <option value="">Select</option>
+          <option value="Vacation Leave">Vacation Leave</option>
+          <option value="Sick Leave">Sick Leave</option>
+          <option value="Emergency Leave">Emergency Leave</option>
+        </select>
+        <label>Date From:</label>
+        <input type="date" id="leaveFrom" required>
+        <label>Date To:</label>
+        <input type="date" id="leaveTo" required>
+        <label>Reason:</label>
+        <textarea id="leaveReason" rows="3" required></textarea>
+        <button type="submit">Submit Request</button>
+      </form>
+  </div>
+</div>
+    <script src="employee-leave-requests.js"></script>
 
     <script src="employee-dashboard.js"></script>
 </body>

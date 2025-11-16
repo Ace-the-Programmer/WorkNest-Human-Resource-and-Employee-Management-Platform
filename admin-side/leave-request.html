@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leave Requests - WorkNest</title>
-    <link rel="stylesheet" href="admin-dashboard.css">
-    <link rel="stylesheet" href="leave-request.css">
+  <meta charset="UTF-8">
+  <title>Leave Requests - WorkNest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="admin-dashboard.css">
+  <link rel="stylesheet" href="leave-request.css">
 </head>
 <body>
     <!-- Sidebar -->
@@ -101,114 +101,39 @@
         </a>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="header-content">
-                <h1 class="page-title">Leave Requests</h1>
-                <p class="page-subtitle">Review and manage employee leave applications</p>
-            </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="tabs-container">
-            <button class="tab-btn active">
-                Pending
-                <span class="tab-count">2</span>
-            </button>
-            <button class="tab-btn">
-                Approved
-                <span class="tab-count">2</span>
-            </button>
-            <button class="tab-btn">
-                Declined
-                <span class="tab-count">1</span>
-            </button>
-        </div>
-
-        <!-- Leave Requests Table -->
-        <div class="table-section">
-            <div class="table-container">
-                <table class="leave-table">
-                    <thead>
-                        <tr>
-                            <th>Employee</th>
-                            <th>Employee ID</th>
-                            <th>Department</th>
-                            <th>Leave Type</th>
-                            <th>Date Range</th>
-                            <th>Total Days</th>
-                            <th>Date Filed</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Juan Carlos Dela Cruz</td>
-                            <td>EMP001</td>
-                            <td>Information Technology</td>
-                            <td><span class="leave-type vacation">Vacation Leave</span></td>
-                            <td>2025-02-10 - 2025-02-14</td>
-                            <td>5 days</td>
-                            <td>2025-01-15</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn view" title="View">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                            <circle cx="12" cy="12" r="3"/>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn approve" title="Approve">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="20 6 9 17 4 12"/>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn decline" title="Decline">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <line x1="18" y1="6" x2="6" y2="18"/>
-                                            <line x1="6" y1="6" x2="18" y2="18"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Miguel Angelo Bautista</td>
-                            <td>EMP007</td>
-                            <td>Information Technology</td>
-                            <td><span class="leave-type sick">Sick Leave</span></td>
-                            <td>2025-02-05 - 2025-02-06</td>
-                            <td>2 days</td>
-                            <td>2025-01-20</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn view" title="View">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                            <circle cx="12" cy="12" r="3"/>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn approve" title="Approve">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="20 6 9 17 4 12"/>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn decline" title="Decline">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <line x1="18" y1="6" x2="6" y2="18"/>
-                                            <line x1="6" y1="6" x2="18" y2="18"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+ <div class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Leave Requests</h1>
+      <p class="page-subtitle">Review and manage employee leave applications</p>
     </div>
+    <div class="tabs-container">
+      <button class="tab-btn active">Pending <span class="tab-count">0</span></button>
+      <button class="tab-btn">Approved <span class="tab-count">0</span></button>
+      <button class="tab-btn">Declined <span class="tab-count">0</span></button>
+    </div>
+    <div class="table-section">
+      <div class="table-container">
+        <table class="leave-table">
+          <thead>
+            <tr>
+              <th>Employee ID</th>
+              <th>Leave Type</th>
+              <th>Date Range</th>
+              <th>Total Days</th>
+              <th>Date Filed</th>
+              <th>Status</th>
+              <th>Reason</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<script src="leave-request.js"></script>
 
     <script src="admin-dashboard.js"></script>
 </body>
