@@ -25,7 +25,6 @@ accountTypeButtons.forEach(btn => {
 // Handle form submission
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    
     const formData = {
         first_name: form.first_name.value,
         last_name: form.last_name.value,
@@ -34,7 +33,6 @@ form.addEventListener('submit', (e) => {
         account_type: selectedAccountType,
         department_id: selectedAccountType === 'Employee' ? form.department.value : null
     };
-    
     fetch('http://localhost:3000/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -59,3 +57,6 @@ form.addEventListener('submit', (e) => {
         alert('An error occurred during signup');
     });
 });
+
+// ←←← THIS FIXES THE ISSUE!
+document.querySelector('.account-type-btn.active').click();

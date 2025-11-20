@@ -30,7 +30,7 @@ function handleLogin(event) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data && data.role === 'Employee') {
+        if (data && data.role && data.role.toLowerCase() === 'employee') {
             // Save user data as needed
             localStorage.setItem('user', JSON.stringify(data));
             window.location.href = 'employee-dashboard.html';

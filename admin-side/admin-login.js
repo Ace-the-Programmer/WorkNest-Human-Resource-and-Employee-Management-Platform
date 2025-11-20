@@ -31,18 +31,22 @@ function handleLogin(event) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data && data.role === 'HR/Admin') {
-            // Save user data, if needed
+        console.log('Login response:', data);
+        
+        // Check if user has role and it's HR/Admin (case-insensitive, handle empty strings)
+        if (data && data.role && data.role.trim() !== '' && 
+            (data.role.toLowerCase() === 'hr/admin' || data.role === 'HR/Admin')) {
+            // Save user data
             localStorage.setItem('user', JSON.stringify(data));
             window.location.href = 'admin-dashboard.html';
         } else if (data && data.error) {
             alert(data.error);
         } else {
-            alert('Access denied. This portal is for HR/Admin only.');
+            alert('Access denied. This portal is for HR/Admin only. Your role is: ' + (data.role || 'not set'));
         }
     })
     .catch(error => {
-        console.error(error);
+        console.error('Login error:', error);
         alert('Login failed. Please try again.');
     });
 }

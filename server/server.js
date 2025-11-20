@@ -53,6 +53,7 @@ app.post('/api/leave-requests', (req, res) => {
         }
     );
 });
+
 // GET ALL Leave Requests (admin-side)
 app.get('/api/leave-requests', (req, res) => {
     db.query('SELECT * FROM leave_requests', (err, results) => {
@@ -60,6 +61,7 @@ app.get('/api/leave-requests', (req, res) => {
         res.json(results);
     });
 });
+
 // UPDATE STATUS ONLY (admin approve/decline)
 app.put('/api/leave-requests/:id', (req, res) => {
     const { status } = req.body;
@@ -72,6 +74,7 @@ app.put('/api/leave-requests/:id', (req, res) => {
         }
     );
 });
+
 // GET by employee_id (employee-side)
 app.get('/api/leave-requests/employee/:employee_id', (req, res) => {
     db.query('SELECT * FROM leave_requests WHERE employee_id=?', [req.params.employee_id], (err, results) => {
@@ -92,12 +95,14 @@ app.post('/employees', (req, res) => {
         }
     );
 });
+
 app.get('/employees', (req, res) => {
     db.query('SELECT * FROM employees', (err, results) => {
         if (err) return res.status(500).json({ error: err });
         res.json(results);
     });
 });
+
 app.get('/employees/:id', (req, res) => {
     db.query('SELECT * FROM employees WHERE id = ?', [req.params.id], (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -105,6 +110,7 @@ app.get('/employees/:id', (req, res) => {
         res.json(results[0]);
     });
 });
+
 app.put('/employees/:id', (req, res) => {
     const { first_name, last_name, email, department_id, position, date_hired, salary, password, status } = req.body;
     db.query(
@@ -116,13 +122,13 @@ app.put('/employees/:id', (req, res) => {
         }
     );
 });
+
 app.delete('/employees/:id', (req, res) => {
     db.query('DELETE FROM employees WHERE id=?', [req.params.id], (err, result) => {
         if (err) return res.status(500).json({ error: err });
         res.json({ message: 'Employee deleted' });
     });
 });
-
 
 // READ single department by ID
 app.get('/departments/:id', (req, res) => {
@@ -155,7 +161,6 @@ app.delete('/departments/:id', (req, res) => {
 });
 
 // --- ATTENDANCE MODULE ---
-// CREATE new attendance record
 app.post('/attendance', (req, res) => {
     const { employee_id, date, time_in, time_out, status } = req.body;
     db.query(
@@ -168,7 +173,6 @@ app.post('/attendance', (req, res) => {
     );
 });
 
-// READ all attendance records
 app.get('/attendance', (req, res) => {
     db.query('SELECT * FROM attendance', (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -176,7 +180,6 @@ app.get('/attendance', (req, res) => {
     });
 });
 
-// READ single attendance record by ID
 app.get('/attendance/:id', (req, res) => {
     db.query('SELECT * FROM attendance WHERE id = ?', [req.params.id], (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -185,7 +188,6 @@ app.get('/attendance/:id', (req, res) => {
     });
 });
 
-// UPDATE attendance record by ID
 app.put('/attendance/:id', (req, res) => {
     const { employee_id, date, time_in, time_out, status } = req.body;
     db.query(
@@ -198,15 +200,14 @@ app.put('/attendance/:id', (req, res) => {
     );
 });
 
-// DELETE attendance record by ID
 app.delete('/attendance/:id', (req, res) => {
     db.query('DELETE FROM attendance WHERE id=?', [req.params.id], (err, result) => {
         if (err) return res.status(500).json({ error: err });
         res.json({ message: 'Attendance deleted' });
     });
-}); 
+});
 
-// --- LEAVE REQUESTS MODULE ---
+// --- LEAVE REQUESTS MODULE (duplicate routes for compatibility) ---
 app.post('/leave_requests', (req, res) => {
     const { employee_id, leave_type, start_date, end_date, reason, status } = req.body;
     db.query(
@@ -219,7 +220,6 @@ app.post('/leave_requests', (req, res) => {
     );
 });
 
-// READ all leave requests
 app.get('/leave_requests', (req, res) => {
     db.query('SELECT * FROM leave_requests', (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -227,7 +227,6 @@ app.get('/leave_requests', (req, res) => {
     });
 });
 
-// READ single leave request by ID
 app.get('/leave_requests/:id', (req, res) => {
     db.query('SELECT * FROM leave_requests WHERE id = ?', [req.params.id], (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -236,7 +235,6 @@ app.get('/leave_requests/:id', (req, res) => {
     });
 });
 
-// UPDATE leave request by ID
 app.put('/leave_requests/:id', (req, res) => {
     const { employee_id, leave_type, start_date, end_date, reason, status } = req.body;
     db.query(
@@ -249,7 +247,6 @@ app.put('/leave_requests/:id', (req, res) => {
     );
 });
 
-// DELETE leave request by ID
 app.delete('/leave_requests/:id', (req, res) => {
     db.query('DELETE FROM leave_requests WHERE id=?', [req.params.id], (err, result) => {
         if (err) return res.status(500).json({ error: err });
@@ -270,7 +267,6 @@ app.post('/payroll', (req, res) => {
     );
 });
 
-// READ all payroll records
 app.get('/payroll', (req, res) => {
     db.query('SELECT * FROM payroll', (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -278,7 +274,6 @@ app.get('/payroll', (req, res) => {
     });
 });
 
-// READ single payroll record by ID
 app.get('/payroll/:id', (req, res) => {
     db.query('SELECT * FROM payroll WHERE id = ?', [req.params.id], (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -287,7 +282,6 @@ app.get('/payroll/:id', (req, res) => {
     });
 });
 
-// UPDATE payroll record by ID
 app.put('/payroll/:id', (req, res) => {
     const { employee_id, month, year, basic_salary, deductions, bonus, net_salary } = req.body;
     db.query(
@@ -300,7 +294,6 @@ app.put('/payroll/:id', (req, res) => {
     );
 });
 
-// DELETE payroll record by ID
 app.delete('/payroll/:id', (req, res) => {
     db.query('DELETE FROM payroll WHERE id=?', [req.params.id], (err, result) => {
         if (err) return res.status(500).json({ error: err });
@@ -321,7 +314,6 @@ app.post('/announcements', (req, res) => {
     );
 });
 
-// READ all announcements
 app.get('/announcements', (req, res) => {
     db.query('SELECT * FROM announcements', (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -329,7 +321,6 @@ app.get('/announcements', (req, res) => {
     });
 });
 
-// READ single announcement by ID
 app.get('/announcements/:id', (req, res) => {
     db.query('SELECT * FROM announcements WHERE id = ?', [req.params.id], (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -338,7 +329,6 @@ app.get('/announcements/:id', (req, res) => {
     });
 });
 
-// UPDATE announcement by ID
 app.put('/announcements/:id', (req, res) => {
     const { title, content, created_by } = req.body;
     db.query(
@@ -351,7 +341,6 @@ app.put('/announcements/:id', (req, res) => {
     );
 });
 
-// DELETE announcement by ID
 app.delete('/announcements/:id', (req, res) => {
     db.query('DELETE FROM announcements WHERE id=?', [req.params.id], (err, result) => {
         if (err) return res.status(500).json({ error: err });
@@ -372,7 +361,6 @@ app.post('/users', (req, res) => {
     );
 });
 
-// READ all users
 app.get('/users', (req, res) => {
     db.query('SELECT * FROM users', (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -380,7 +368,6 @@ app.get('/users', (req, res) => {
     });
 });
 
-// READ single user by ID
 app.get('/users/:id', (req, res) => {
     db.query('SELECT * FROM users WHERE id = ?', [req.params.id], (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -389,7 +376,6 @@ app.get('/users/:id', (req, res) => {
     });
 });
 
-// UPDATE user by ID
 app.put('/users/:id', (req, res) => {
     const { username, password, role, employee_id } = req.body;
     db.query(
@@ -402,7 +388,6 @@ app.put('/users/:id', (req, res) => {
     );
 });
 
-// DELETE user by ID
 app.delete('/users/:id', (req, res) => {
     db.query('DELETE FROM users WHERE id=?', [req.params.id], (err, result) => {
         if (err) return res.status(500).json({ error: err });
@@ -480,64 +465,103 @@ app.get('/export/users/xml', (req, res) => {
         res.send(xml);
     });
 });
-// LOGIN ROUTE
+
+// --- SIGNUP ROUTE (case-insensitive for "Employee") ---
+app.post('/signup', (req, res) => {
+    const { first_name, last_name, email, password, account_type, department_id } = req.body;
+    console.log('Signup request received:', { first_name, last_name, email, account_type, department_id });
+
+    // Normalize account_type for comparison
+    const type = (account_type || '').toLowerCase();
+
+    if (account_type === 'HR/Admin') {
+        db.query(
+            'INSERT INTO users (username, password, role, employee_id) VALUES (?, ?, ?, NULL)',
+            [email, password, account_type],
+            (err, result) => {
+                if (err) {
+                    console.error('Error creating HR/Admin user:', err);
+                    return res.status(500).json({ success: false, error: err.sqlMessage || 'Failed to create account' });
+                }
+                console.log('HR/Admin user created successfully with ID:', result.insertId);
+                res.json({ 
+                    success: true, 
+                    message: 'HR/Admin account created successfully!',
+                    user_id: result.insertId,
+                    role: account_type
+                });
+            }
+        );
+    }
+    else if (type === 'employee') {
+        db.query(
+            'INSERT INTO employees (first_name, last_name, email, password, department_id, position, status, date_hired) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())',
+            [first_name, last_name, email, password, department_id || null, 'New Employee', 'Active'],
+            (err, result) => {
+                if (err) {
+                    console.error('Error creating employee:', err);
+                    return res.status(500).json({ success: false, error: err.sqlMessage || 'Failed to create account' });
+                }
+
+                const employee_id = result.insertId;
+                console.log('Employee created with ID:', employee_id);
+
+                db.query(
+                    'INSERT INTO users (username, password, role, employee_id) VALUES (?, ?, ?, ?)',
+                    [email, password, 'employee', employee_id],
+                    (err2, result2) => {
+                        if (err2) {
+                            console.error('Error creating user:', err2);
+                            return res.status(500).json({ success: false, error: err2.sqlMessage || 'Failed to create user account' });
+                        }
+
+                        console.log('User created successfully with role: employee');
+                        res.json({ 
+                            success: true, 
+                            message: 'Employee account created successfully!',
+                            employee_id: employee_id,
+                            user_id: result2.insertId,
+                            role: 'employee'
+                        });
+                    }
+                );
+            }
+        );
+    }
+    else {
+        res.status(400).json({ success: false, error: 'Invalid account type' });
+    }
+});
+
+// --- LOGIN ROUTE ---
 app.post('/api/login', (req, res) => {
-  const { identifier, password } = req.body; // identifier can be username or email
-  db.query(
-    'SELECT * FROM users WHERE (username=? OR email=?) AND password=?',
-    [identifier, identifier, password],
-    (err, results) => {
-      if (err) return res.status(500).json({ error: 'Server error' });
-      if (results.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
-      const user = results[0];
-      res.json({
-        id: user.id,
-        employee_id: user.employee_id,
-        username: user.username,
-        role: user.role
-      });
-    }
-  );
+    const { identifier, password } = req.body;
+    console.log('Login attempt:', { identifier, password: '***' });
+    db.query(
+        'SELECT * FROM users WHERE username=? AND password=?',
+        [identifier, password],
+        (err, results) => {
+            if (err) {
+                console.error('Login error:', err);
+                return res.status(500).json({ error: 'Server error' });
+            }
+            if (results.length === 0) {
+                console.log('No user found with credentials');
+                return res.status(401).json({ error: 'Invalid credentials' });
+            }
+            const user = results[0];
+            console.log('User found:', { id: user.id, username: user.username, role: user.role });
+            res.json({
+                id: user.id,
+                employee_id: user.employee_id,
+                username: user.username,
+                role: user.role
+            });
+        }
+    );
 });
 
 // START SERVER (always last)
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
-// --- SIGNUP ROUTE ---
-app.post('/signup', (req, res) => {
-    const { first_name, last_name, email, password, account_type, department_id } = req.body;
-    
-    // Insert into employees table
-    db.query(
-        'INSERT INTO employees (first_name, last_name, email, password, department_id, position, status, date_hired) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())',
-        [first_name, last_name, email, password, department_id || null, 'New Employee', 'Active'],
-        (err, result) => {
-            if (err) {
-                console.error('Error creating employee:', err);
-                return res.status(500).json({ success: false, error: 'Failed to create account' });
-            }
-            
-            const employee_id = result.insertId;
-            
-            // Insert into users table
-            db.query(
-                'INSERT INTO users (username, password, role, employee_id) VALUES (?, ?, ?, ?)',
-                [email, password, account_type, employee_id],
-                (err2, result2) => {
-                    if (err2) {
-                        console.error('Error creating user:', err2);
-                        return res.status(500).json({ success: false, error: 'Failed to create user account' });
-                    }
-                    
-                    res.json({ 
-                        success: true, 
-                        message: 'Account created successfully!',
-                        employee_id: employee_id,
-                        role: account_type
-                    });
-                }
-            );
-        }
-    );
 });
