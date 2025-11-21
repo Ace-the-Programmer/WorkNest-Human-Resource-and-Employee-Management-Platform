@@ -6,13 +6,10 @@ let selectedAccountType = 'HR/Admin'; // default
 // Handle account type selection
 accountTypeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-        // Remove active class from all
         accountTypeButtons.forEach(b => b.classList.remove('active'));
-        // Add active to clicked
         btn.classList.add('active');
         selectedAccountType = btn.dataset.type;
-        // Show/hide department field
-        if (selectedAccountType === 'Employee') {
+        if (selectedAccountType.toLowerCase() === 'employee') {
             departmentField.style.display = 'block';
             form.department.setAttribute('required', 'required');
         } else {
@@ -22,17 +19,27 @@ accountTypeButtons.forEach(btn => {
     });
 });
 
-// Handle form submission
+// Handle form submission - send DEPARTMENT NAME (not id)
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const formData = {
-        first_name: form.first_name.value,
-        last_name: form.last_name.value,
-        email: form.email.value,
-        password: form.password.value,
-        account_type: selectedAccountType,
-        department_id: selectedAccountType === 'Employee' ? form.department.value : null
-    };
+const departmentName =
+    selectedAccountType.toLowerCase() === 'employee'
+        ? form.department.options[form.department.selectedIndex].text
+        : null;
+const departmentId =
+    selectedAccountType.toLowerCase() === 'employee'
+        ? form.department.value
+        : null;
+
+const formData = {
+    first_name: form.first_name.value,
+    last_name: form.last_name.value,
+    email: form.email.value,
+    password: form.password.value,
+    account_type: selectedAccountType,
+    department_id: departmentId,        // number (1, 2, ...)
+    department_name: departmentName     // name ("Information Technology")
+};
     fetch('http://localhost:3000/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -42,7 +49,6 @@ form.addEventListener('submit', (e) => {
     .then(data => {
         if (data.success) {
             alert('Account created successfully!');
-            // Redirect based on role
             if (data.role === 'HR/Admin') {
                 window.location.href = '../admin-side/admin-dashboard.html';
             } else {
@@ -58,5 +64,5 @@ form.addEventListener('submit', (e) => {
     });
 });
 
-// ←←← THIS FIXES THE ISSUE!
+// Trigger default logic for button highlighting
 document.querySelector('.account-type-btn.active').click();
