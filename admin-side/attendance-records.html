@@ -121,7 +121,7 @@
                 </div>
                 <div class="stat-info">
                     <p class="stat-label">Total Present Today</p>
-                    <h2 class="stat-number">35</h2>
+                    <h2 class="stat-number" id="statPresent">0</h2>
                 </div>
             </div>
 
@@ -134,7 +134,7 @@
                 </div>
                 <div class="stat-info">
                     <p class="stat-label">Total Absent Today</p>
-                    <h2 class="stat-number">3</h2>
+                    <h2 class="stat-number" id="statAbsent">0</h2>
                 </div>
             </div>
 
@@ -147,7 +147,7 @@
                 </div>
                 <div class="stat-info">
                     <p class="stat-label">Total Late Today</p>
-                    <h2 class="stat-number">3</h2>
+                    <h2 class="stat-number" id="statLate">0</h2>
                 </div>
             </div>
 
@@ -160,7 +160,7 @@
                 </div>
                 <div class="stat-info">
                     <p class="stat-label">Attendance Rate</p>
-                    <h2 class="stat-number">85.4%</h2>
+                    <h2 class="stat-number" id="statRate">0%</h2>
                 </div>
             </div>
         </div>
@@ -173,54 +173,58 @@
                 </svg>
                 Filters
             </h3>
-            <div class="filters-grid">
-                <div class="filter-item">
-                    <label>Employee</label>
-                    <select class="filter-select">
-                        <option>All employees</option>
-                        <option>Juan Carlos Dela Cruz</option>
-                        <option>Maria Santos</option>
-                        <option>Jose Rizal Mercado</option>
-                    </select>
+            <form id="filtersForm">
+                <div class="filters-grid">
+                    <div class="filter-item">
+                        <label for="employeeFilter">Employee</label>
+                        <select class="filter-select" id="employeeFilter">
+                            <option value="all">All employees</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="dateFromFilter">Date From</label>
+                        <input type="date" class="filter-input" id="dateFromFilter">
+                    </div>
+                    <div class="filter-item">
+                        <label for="dateToFilter">Date To</label>
+                        <input type="date" class="filter-input" id="dateToFilter">
+                    </div>
+                    <div class="filter-item">
+                        <label for="departmentFilter">Department</label>
+                        <select class="filter-select" id="departmentFilter">
+                            <option value="all">All departments</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Operations">Operations</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="statusFilter">Status</label>
+                        <select class="filter-select" id="statusFilter">
+                            <option value="all">All statuses</option>
+                            <option value="present">Present</option>
+                            <option value="absent">Absent</option>
+                            <option value="late">Late</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="filter-item">
-                    <label>Date From</label>
-                    <input type="date" class="filter-input" value="2025-01-01">
+                <div class="filter-actions">
+                    <button type="submit" class="apply-btn" id="applyFiltersBtn">Apply Filters</button>
+                    <button type="button" class="reset-btn" id="resetFiltersBtn">Reset</button>
                 </div>
-                <div class="filter-item">
-                    <label>Date To</label>
-                    <input type="date" class="filter-input" value="2025-01-20">
-                </div>
-                <div class="filter-item">
-                    <label>Department</label>
-                    <select class="filter-select">
-                        <option>All departments</option>
-                        <option>Information Technology</option>
-                        <option>Human Resources</option>
-                        <option>Finance</option>
-                        <option>Marketing</option>
-                        <option>Operations</option>
-                    </select>
-                </div>
-                <div class="filter-item">
-                    <label>Status</label>
-                    <select class="filter-select">
-                        <option>Present</option>
-                        <option>Absent</option>
-                        <option>Late</option>
-                    </select>
-                </div>
-            </div>
-            <div class="filter-actions">
-                <button class="apply-btn">Apply Filters</button>
-                <button class="reset-btn">Reset</button>
-            </div>
+            </form>
         </div>
 
         <!-- Attendance Records Table -->
         <div class="records-section">
             <div class="records-header">
                 <h3 class="records-title">Attendance Records</h3>
+                <div class="records-status">
+                    <span class="live-badge" id="liveBadge">Live</span>
+                    <span class="update-indicator" id="updateIndicator">Updated just now</span>
+                </div>
                 <div class="export-buttons">
                     <button class="export-btn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -256,102 +260,9 @@
                             <th>Remarks</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="employee-info">
-                                    <div class="avatar" style="background: #FFB74D;">JC</div>
-                                    <span>Juan Carlos Dela Cruz</span>
-                                </div>
-                            </td>
-                            <td>EMP001</td>
-                            <td>Information Technology</td>
-                            <td>Jan 20, 2025</td>
-                            <td>08:45</td>
-                            <td>17:30</td>
-                            <td>8.75 hrs</td>
-                            <td><span class="status-badge present">Present</span></td>
-                            <td>On time</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="employee-info">
-                                    <div class="avatar" style="background: #E57373;">MS</div>
-                                    <span>Maria Santos</span>
-                                </div>
-                            </td>
-                            <td>EMP002</td>
-                            <td>Human Resources</td>
-                            <td>Jan 20, 2025</td>
-                            <td>08:30</td>
-                            <td>17:00</td>
-                            <td>8.5 hrs</td>
-                            <td><span class="status-badge present">Present</span></td>
-                            <td>On time</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="employee-info">
-                                    <div class="avatar" style="background: #FF8A65;">JM</div>
-                                    <span>Jose Rizal Mercado</span>
-                                </div>
-                            </td>
-                            <td>EMP003</td>
-                            <td>Finance</td>
-                            <td>Jan 20, 2025</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td><span class="status-badge absent">Absent</span></td>
-                            <td>No show</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="employee-info">
-                                    <div class="avatar" style="background: #81C784;">AR</div>
-                                    <span>Ana Marie Reyes</span>
-                                </div>
-                            </td>
-                            <td>EMP004</td>
-                            <td>Marketing</td>
-                            <td>Jan 20, 2025</td>
-                            <td>09:15</td>
-                            <td>17:15</td>
-                            <td>8 hrs</td>
-                            <td><span class="status-badge late">Late</span></td>
-                            <td>Late arrival</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="employee-info">
-                                    <div class="avatar" style="background: #64B5F6;">PG</div>
-                                    <span>Pedro Gonzales</span>
-                                </div>
-                            </td>
-                            <td>EMP005</td>
-                            <td>Operations</td>
-                            <td>Jan 20, 2025</td>
-                            <td>08:40</td>
-                            <td>17:10</td>
-                            <td>8.5 hrs</td>
-                            <td><span class="status-badge present">Present</span></td>
-                            <td>On time</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="employee-info">
-                                    <div class="avatar" style="background: #BA68C8;">SG</div>
-                                    <span>Sofia Cruz Garcia</span>
-                                </div>
-                            </td>
-                            <td>EMP006</td>
-                            <td>Information Technology</td>
-                            <td>Jan 20, 2025</td>
-                            <td>08:55</td>
-                            <td>17:20</td>
-                            <td>8.42 hrs</td>
-                            <td><span class="status-badge present">Present</span></td>
-                            <td>On time</td>
+                    <tbody id="attendanceRecordsBody">
+                        <tr class="placeholder-row">
+                            <td colspan="9">Loading attendance records...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -359,15 +270,15 @@
 
             <!-- Pagination -->
             <div class="pagination">
-                <div class="pagination-info">Showing 1-6 of 50+ records</div>
+                <div class="pagination-info" id="paginationInfo">Showing 0 records</div>
                 <div class="pagination-controls">
-                    <button class="page-btn" disabled>Previous</button>
-                    <button class="page-btn">Next</button>
+                    <span class="last-updated" id="lastUpdatedLabel">Updated moments ago</span>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="admin-dashboard.js"></script>
+    <script src="attendance-records.js"></script>
 </body>
 </html>

@@ -92,7 +92,7 @@
                 </div>
                 <div class="stat-content">
                     <p class="stat-label">Total Days Present</p>
-                    <h2 class="stat-value">16</h2>
+                    <h2 class="stat-value" id="totalPresentValue">0</h2>
                     <p class="stat-period">This month</p>
                 </div>
             </div>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="stat-content">
                     <p class="stat-label">Total Lates</p>
-                    <h2 class="stat-value">2</h2>
+                    <h2 class="stat-value" id="totalLatesValue">0</h2>
                     <p class="stat-period">This month</p>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                 </div>
                 <div class="stat-content">
                     <p class="stat-label">Total Absences</p>
-                    <h2 class="stat-value">1</h2>
+                    <h2 class="stat-value" id="totalAbsencesValue">0</h2>
                     <p class="stat-period">This month</p>
                 </div>
             </div>
@@ -130,10 +130,10 @@
         <!-- Calendar Section -->
         <div class="calendar-section">
             <div class="calendar-header-bar">
-                <h2 class="section-title">January 2025</h2>
+                <h2 class="section-title" id="calendarMonthLabel">Month YYYY</h2>
                 <div class="month-switcher">
-                    <button class="month-btn active">This Month</button>
-                    <button class="month-btn">Last Month</button>
+                    <button class="month-btn active" id="thisMonthBtn">This Month</button>
+                    <button class="month-btn" id="lastMonthBtn">Last Month</button>
                 </div>
             </div>
 
@@ -147,42 +147,7 @@
                     <div class="day-label">Fri</div>
                     <div class="day-label">Sat</div>
                 </div>
-                <div class="calendar-grid">
-                    <div class="calendar-day empty"></div>
-                    <div class="calendar-day empty"></div>
-                    <div class="calendar-day empty"></div>
-                    <div class="calendar-day present">1</div>
-                    <div class="calendar-day present">2</div>
-                    <div class="calendar-day absent">3</div>
-                    <div class="calendar-day present">4</div>
-                    <div class="calendar-day present">5</div>
-                    <div class="calendar-day empty"></div>
-                    <div class="calendar-day empty"></div>
-                    <div class="calendar-day present">8</div>
-                    <div class="calendar-day present">9</div>
-                    <div class="calendar-day present">10</div>
-                    <div class="calendar-day present">11</div>
-                    <div class="calendar-day present">12</div>
-                    <div class="calendar-day empty"></div>
-                    <div class="calendar-day empty"></div>
-                    <div class="calendar-day present">15</div>
-                    <div class="calendar-day present">16</div>
-                    <div class="calendar-day present">17</div>
-                    <div class="calendar-day leave">18</div>
-                    <div class="calendar-day late">19</div>
-                    <div class="calendar-day empty">20</div>
-                    <div class="calendar-day empty">21</div>
-                    <div class="calendar-day empty">22</div>
-                    <div class="calendar-day empty">23</div>
-                    <div class="calendar-day empty">24</div>
-                    <div class="calendar-day empty">25</div>
-                    <div class="calendar-day empty">26</div>
-                    <div class="calendar-day empty">27</div>
-                    <div class="calendar-day empty">28</div>
-                    <div class="calendar-day empty">29</div>
-                    <div class="calendar-day empty">30</div>
-                    <div class="calendar-day empty">31</div>
-                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
             </div>
 
             <div class="calendar-legend">
@@ -213,23 +178,32 @@
         <div class="attendance-log">
             <div class="log-header">
                 <h2 class="section-title">Daily Attendance Log</h2>
-                <div class="download-buttons">
-                    <button class="download-btn">
+                <div class="log-actions">
+                    <button class="add-log-btn" id="openAddLogModal">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
                         </svg>
-                        Download PDF
+                        Add Log
                     </button>
-                    <button class="download-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                        Download CSV
-                    </button>
+                    <div class="download-buttons">
+                        <button class="download-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Download PDF
+                        </button>
+                        <button class="download-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Download CSV
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -245,46 +219,9 @@
                             <th>Remarks</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Jan 20, 2025</td>
-                            <td>08:45</td>
-                            <td>17:30</td>
-                            <td>8.75 hrs</td>
-                            <td><span class="status-badge present">Present</span></td>
-                            <td>On time</td>
-                        </tr>
-                        <tr>
-                            <td>Jan 19, 2025</td>
-                            <td>09:15</td>
-                            <td>17:30</td>
-                            <td>8.25 hrs</td>
-                            <td><span class="status-badge late">Late</span></td>
-                            <td>Late arrival</td>
-                        </tr>
-                        <tr>
-                            <td>Jan 18, 2025</td>
-                            <td>08:30</td>
-                            <td>17:00</td>
-                            <td>8.50 hrs</td>
-                            <td><span class="status-badge present">Present</span></td>
-                            <td>On time</td>
-                        </tr>
-                        <tr>
-                            <td>Jan 17, 2025</td>
-                            <td>08:40</td>
-                            <td>17:15</td>
-                            <td>8.58 hrs</td>
-                            <td><span class="status-badge present">Present</span></td>
-                            <td>On time</td>
-                        </tr>
-                        <tr>
-                            <td>Jan 16, 2025</td>
-                            <td>08:55</td>
-                            <td>17:20</td>
-                            <td>8.42 hrs</td>
-                            <td><span class="status-badge present">Present</span></td>
-                            <td>On time</td>
+                    <tbody id="attendanceTableBody">
+                        <tr class="placeholder-row">
+                            <td colspan="6">Loading attendance data...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -292,6 +229,73 @@
         </div>
     </div>
 
+    <!-- Add Log Modal -->
+    <div class="modal-overlay" id="addLogModal" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addLogTitle">
+            <div class="modal-header">
+                <div>
+                    <h3 id="addLogTitle">Add Attendance Log</h3>
+                    <p>Fill in the details below to add a new entry.</p>
+                </div>
+                <button class="modal-close" id="closeAddLogModal" aria-label="Close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="addLogForm">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="logDate">Date <span>*</span></label>
+                        <input type="date" id="logDate" name="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timeIn">Time In <span>*</span></label>
+                        <input type="time" id="timeIn" name="timeIn" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timeOut">Time Out <span>*</span></label>
+                        <input type="time" id="timeOut" name="timeOut" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="status">Status <span>*</span></label>
+                        <select id="status" name="status" required>
+                            <option value="present">Present</option>
+                            <option value="late">Late</option>
+                            <option value="absent">Absent</option>
+                            <option value="leave">Leave</option>
+                            <option value="weekend">Weekend</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="remarks">Remarks</label>
+                        <input type="text" id="remarks" name="remarks" readonly placeholder="Automatically generated">
+                        <p class="field-hint">Remarks update automatically based on the times and status.</p>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="totalHours">Total Hours</label>
+                        <input type="text" id="totalHours" name="totalHours" readonly placeholder="0.00 hrs">
+                    </div>
+                </div>
+
+                <div class="form-error" id="formError" role="alert"></div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelAddLog">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Log</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="employee-dashboard.js"></script>
+    <script src="employee-attendance.js"></script>
 </body>
 </html>

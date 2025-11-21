@@ -23,7 +23,8 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'worknest_db'
+    database: 'worknest_db',
+    dateStrings: true
 });
 
 // Connect to Database
@@ -40,6 +41,349 @@ app.get('/', (req, res) => {
     res.json({ message: 'WorkNest API is running!' });
 });
 
+/* ------- LEAVE REQUESTS MODULE ------- */
+app.post('/api/leave-requests', (req, res) => {
+    const { employee_id, leave_type, start_date, end_date, reason } = req.body;
+    if (!employee_id || !leave_type || !start_date || !end_date) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+    db.query(
+        'INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, reason, status, created_at) VALUES (?, ?, ?, ?, ?, "Pending", NOW())',
+        [employee_id, leave_type, start_date, end_date, reason || ''],
+        (err, result) => {
+            if (err) {
+                console.error('Error creating leave request:', err);
+                return res.status(500).json({ error: err.sqlMessage || 'Failed to create leave request' });
+            }
+            res.json({
+                id: result.insertId,
+                employee_id, leave_type, start_date, end_date,
+                reason: reason || '', status: "Pending", created_at: new Date()
+            });
+        }
+    );
+});
+app.get('/api/leave-requests', (req, res) => {
+    db.query('SELECT * FROM leave_requests ORDER BY created_at DESC', (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json(results);
+    });
+});
+app.put('/api/leave-requests/:id', (req, res) => {
+    const { status } = req.body;
+    const validStatuses = ['Pending', 'Approved', 'Declined'];
+    if (!validStatuses.includes(status)) {
+        return res.status(400).json({ error: 'Invalid status value' });
+    }
+    db.query(
+        'UPDATE leave_requests SET status=? WHERE id=?',
+        [status, req.params.id],
+        (err, result) => {
+            if (err) return res.status(500).json({ error: err });
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: 'Leave request not found' });
+            }
+            res.json({ message: 'Leave request status updated', status });
+        }
+    );
+});
+app.get('/api/leave-requests/employee/:employee_id', (req, res) => {
+    db.query(
+        'SELECT * FROM leave_requests WHERE employee_id=? ORDER BY created_at DESC',
+        [req.params.employee_id],
+        (err, results) => {
+            if (err) return res.status(500).json({ error: err });
+            res.json(results);
+        }
+    );
+});
+app.get('/api/leave-balance/:employee_id', (req, res) => {
+    const employeeId = req.params.employee_id;
+    const TOTAL_LEAVE_DAYS = 2;
+    const query = `
+        SELECT 
+            SUM(DATEDIFF(end_date, start_date) + 1) as used_days
+        FROM leave_requests
+        WHERE employee_id = ? 
+        AND status = 'Approved'
+        AND leave_type NOT LIKE '%Emergency%'
+        AND leave_type NOT LIKE '%Maternity%'
+    `;
+    db.query(query, [employeeId], (err, results) => {
+        if (err) {
+            console.error('Error fetching leave balance:', err);
+            return res.status(500).json({ error: err });
+        }
+        const usedDays = (results[0] && results[0].used_days) ? parseInt(results[0].used_days) : 0;
+        const remainingDays = Math.max(0, TOTAL_LEAVE_DAYS - usedDays);
+        const balance = {
+            total: TOTAL_LEAVE_DAYS,
+            used: usedDays,
+            remaining: remainingDays
+        };
+        res.json(balance);
+    });
+});
+
+/* ------- EMPLOYEES MODULE ------- */
+app.post('/employees', (req, res) => {
+    const { first_name, last_name, email, department_id, position, date_hired, salary, password, status } = req.body;
+    db.query(
+        'INSERT INTO employees (first_name, last_name, email, department_id, position, date_hired, salary, password, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [first_name, last_name, email, department_id, position, date_hired, salary, password, status],
+        (err, result) => {
+            if (err) return res.status(500).json({ error: err });
+            res.json({ id: result.insertId, ...req.body });
+        }
+    );
+});
+app.get('/employees', (req, res) => {
+    db.query('SELECT * FROM employees', (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json(results);
+    });
+});
+app.get('/employees/:id', (req, res) => {
+    db.query('SELECT * FROM employees WHERE id = ?', [req.params.id], (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        if (results.length === 0) return res.status(404).json({ error: 'Not found' });
+        res.json(results[0]);
+    });
+});
+app.put('/employees/:id', (req, res) => {
+    const { first_name, last_name, email, department_id, position, date_hired, salary, password, status } = req.body;
+    db.query(
+        'UPDATE employees SET first_name=?, last_name=?, email=?, department_id=?, position=?, date_hired=?, salary=?, password=?, status=? WHERE id=?',
+        [first_name, last_name, email, department_id, position, date_hired, salary, password, status, req.params.id],
+        (err, result) => {
+            if (err) return res.status(500).json({ error: err });
+            res.json({ message: 'Employee updated' });
+        }
+    );
+});
+app.delete('/employees/:id', (req, res) => {
+    db.query('DELETE FROM employees WHERE id=?', [req.params.id], (err, result) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json({ message: 'Employee deleted' });
+    });
+});
+app.get('/departments/:id', (req, res) => {
+    db.query('SELECT * FROM departments WHERE id = ?', [req.params.id], (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        if (results.length === 0) return res.status(404).json({ error: 'Not found' });
+        res.json(results[0]);
+    });
+});
+app.put('/departments/:id', (req, res) => {
+    const { name, description } = req.body;
+    db.query(
+        'UPDATE departments SET name=?, description=? WHERE id=?',
+        [name, description, req.params.id],
+        (err, result) => {
+            if (err) return res.status(500).json({ error: err });
+            res.json({ message: 'Department updated' });
+        }
+    );
+});
+app.delete('/departments/:id', (req, res) => {
+    db.query('DELETE FROM departments WHERE id=?', [req.params.id], (err, result) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json({ message: 'Department deleted' });
+    });
+});
+
+/* ------- ADVANCED ATTENDANCE MODULE (from your classmate) ------- */
+function buildAttendanceFilterClauses(query = {}, includeDepartment = false) {
+    const clauses = [];
+    const values = [];
+    if (query.employee_id) { clauses.push('a.employee_id = ?'); values.push(query.employee_id); }
+    if (query.status) { clauses.push('LOWER(a.status) = ?'); values.push(query.status.toLowerCase()); }
+    if (includeDepartment && query.department) { clauses.push('LOWER(d.name) = ?'); values.push(query.department.toLowerCase()); }
+    if (query.start_date) { clauses.push('a.date >= ?'); values.push(query.start_date); }
+    if (query.end_date) { clauses.push('a.date <= ?'); values.push(query.end_date); }
+    const whereClause = clauses.length ? `WHERE ${clauses.join(' AND ')}` : '';
+    return { whereClause, values };
+}
+app.post('/attendance', (req, res) => {
+    const { employee_id, date, time_in, time_out, status, total_hours, remarks } = req.body;
+    if (!employee_id || !date || !time_in || !time_out || !status) {
+        return res.status(400).json({ error: 'Missing required attendance fields.' });
+    }
+    const insertQuery = `
+        INSERT INTO attendance (employee_id, date, time_in, time_out, status, total_hours, remarks)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+    db.query(
+        insertQuery,
+        [employee_id, date, time_in, time_out, status, total_hours ?? null, remarks ?? null],
+        (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: err.sqlMessage || 'Failed to save attendance.' });
+            }
+            const statsQuery = `
+                SELECT
+                    SUM(CASE WHEN LOWER(status) = 'present' THEN 1 ELSE 0 END) AS total_present,
+                    SUM(CASE WHEN LOWER(status) = 'late' THEN 1 ELSE 0 END) AS total_lates,
+                    SUM(CASE WHEN LOWER(status) = 'absent' THEN 1 ELSE 0 END) AS total_absences
+                FROM attendance
+                WHERE employee_id = ?
+                    AND MONTH(date) = MONTH(CURRENT_DATE())
+                    AND YEAR(date) = YEAR(CURRENT_DATE())
+            `;
+            db.query(statsQuery, [employee_id], (statsErr, statsRows) => {
+                if (statsErr) {
+                    return res.status(500).json({ error: statsErr.sqlMessage || 'Attendance saved but failed to fetch statistics.' });
+                }
+                res.json({
+                    id: result.insertId,
+                    employee_id, date, time_in, time_out, status,
+                    total_hours, remarks,
+                    stats: statsRows[0] || { total_present: 0, total_lates: 0, total_absences: 0 }
+                });
+            });
+        }
+    );
+});
+app.get('/attendance/summary', (req, res) => {
+    const { employee_id } = req.query;
+    let { month, year } = req.query;
+    if (!employee_id) { return res.status(400).json({ error: 'employee_id is required' }); }
+    const now = new Date();
+    month = parseInt(month, 10) || now.getMonth() + 1;
+    year = parseInt(year, 10) || now.getFullYear();
+    const summaryQuery = `
+        SELECT
+            SUM(CASE WHEN LOWER(status) = 'present' THEN 1 ELSE 0 END) AS total_present,
+            SUM(CASE WHEN LOWER(status) = 'late' THEN 1 ELSE 0 END) AS total_lates,
+            SUM(CASE WHEN LOWER(status) = 'absent' THEN 1 ELSE 0 END) AS total_absences
+        FROM attendance
+        WHERE employee_id = ?
+            AND MONTH(date) = ?
+            AND YEAR(date) = ?
+    `;
+    db.query(summaryQuery, [employee_id, month, year], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.sqlMessage || 'Failed to fetch summary.' });
+        res.json(rows[0] || { total_present: 0, total_lates: 0, total_absences: 0 });
+    });
+});
+app.get('/attendance/monthly', (req, res) => {
+    const { employee_id } = req.query;
+    let { month, year } = req.query;
+    if (!employee_id) { return res.status(400).json({ error: 'employee_id is required' }); }
+    const now = new Date();
+    month = parseInt(month, 10) || now.getMonth() + 1;
+    year = parseInt(year, 10) || now.getFullYear();
+    const recordsQuery = `
+        SELECT id, employee_id, date, time_in, time_out, status, total_hours, remarks
+        FROM attendance
+        WHERE employee_id = ?
+            AND MONTH(date) = ?
+            AND YEAR(date) = ?
+        ORDER BY date ASC
+    `;
+    db.query(recordsQuery, [employee_id, month, year], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.sqlMessage || 'Failed to fetch attendance records.' });
+        res.json(rows);
+    });
+});
+app.get('/attendance/admin/stats', (req, res) => {
+    const { whereClause, values } = buildAttendanceFilterClauses(req.query, true);
+    const statsQuery = `
+        SELECT
+            SUM(CASE WHEN LOWER(a.status) = 'present' THEN 1 ELSE 0 END) AS total_present,
+            SUM(CASE WHEN LOWER(a.status) = 'absent' THEN 1 ELSE 0 END) AS total_absent,
+            SUM(CASE WHEN LOWER(a.status) = 'late' THEN 1 ELSE 0 END) AS total_lates,
+            COUNT(*) AS total_logs
+        FROM attendance a
+        LEFT JOIN employees e ON a.employee_id = e.id
+        LEFT JOIN departments d ON e.department_id = d.id
+        ${whereClause}
+    `;
+    db.query(statsQuery, values, (err, rows) => {
+        if (err) return res.status(500).json({ error: err.sqlMessage || 'Failed to fetch admin stats.' });
+        const stats = rows[0] || { total_present: 0, total_absent: 0, total_lates: 0, total_logs: 0 };
+        const denominator = (stats.total_present || 0) + (stats.total_absent || 0) + (stats.total_lates || 0);
+        const attendance_rate = denominator ? (stats.total_present / denominator) * 100 : 0;
+        res.json({
+            total_present: stats.total_present || 0,
+            total_absent: stats.total_absent || 0,
+            total_lates: stats.total_lates || 0,
+            attendance_rate
+        });
+    });
+});
+app.get('/attendance/admin', (req, res) => {
+    const { whereClause, values } = buildAttendanceFilterClauses(req.query, true);
+    const limit = Math.min(parseInt(req.query.limit, 10) || 150, 500);
+    const recordsQuery = `
+        SELECT
+            a.id,
+            a.employee_id,
+            TRIM(CONCAT(IFNULL(e.first_name, ''), ' ', IFNULL(e.last_name, ''))) AS employee_name,
+            COALESCE(d.name, 'Unassigned') AS department_name,
+            a.date,
+            a.time_in,
+            a.time_out,
+            a.total_hours,
+            a.status,
+            a.remarks
+        FROM attendance a
+        LEFT JOIN employees e ON a.employee_id = e.id
+        LEFT JOIN departments d ON e.department_id = d.id
+        ${whereClause}
+        ORDER BY a.date DESC, a.time_in DESC, a.id DESC
+        LIMIT ?
+    `;
+    db.query(recordsQuery, [...values, limit], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.sqlMessage || 'Failed to fetch admin attendance records.' });
+        res.json(rows);
+    });
+});
+app.get('/attendance', (req, res) => {
+    const clauses = [];
+    const params = [];
+    if (req.query.employee_id) { clauses.push('employee_id = ?'); params.push(req.query.employee_id); }
+    if (req.query.start_date) { clauses.push('date >= ?'); params.push(req.query.start_date); }
+    if (req.query.end_date) { clauses.push('date <= ?'); params.push(req.query.end_date); }
+    const whereClause = clauses.length ? `WHERE ${clauses.join(' AND ')}` : '';
+    const query = `SELECT * FROM attendance ${whereClause} ORDER BY date DESC, time_in DESC, id DESC`;
+    db.query(query, params, (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json(results);
+    });
+});
+app.get('/attendance/:id', (req, res) => {
+    db.query('SELECT * FROM attendance WHERE id = ?', [req.params.id], (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        if (results.length === 0) return res.status(404).json({ error: 'Not found' });
+        res.json(results[0]);
+    });
+});
+app.put('/attendance/:id', (req, res) => {
+    const { employee_id, date, time_in, time_out, status } = req.body;
+    db.query(
+        'UPDATE attendance SET employee_id=?, date=?, time_in=?, time_out=?, status=? WHERE id=?',
+        [employee_id, date, time_in, time_out, status, req.params.id],
+        (err, result) => {
+            if (err) return res.status(500).json({ error: err });
+            res.json({ message: 'Attendance updated' });
+        }
+    );
+});
+app.delete('/attendance/:id', (req, res) => {
+    db.query('DELETE FROM attendance WHERE id=?', [req.params.id], (err, result) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json({ message: 'Attendance deleted' });
+    });
+});
+
+/* ------- THE REST OF YOUR MODULES (leave_requests, payroll, announcements, users, XML export, signup, login, etc.) ------- */
+// ... (all copied from your server.js — keep them exactly, no changes)
+
+/* ------- LOGIN, SIGNUP, AND EXPORT MODULES (unchanged) ------- */
+// ... (all from your server.js)
+
+/* ------- START SERVER ------- */
 /* ------- LEAVE REQUESTS MODULE ------- */
 // CREATE Leave Request (employee-side) - FIXED with proper status default
 app.post('/api/leave-requests', (req, res) => {

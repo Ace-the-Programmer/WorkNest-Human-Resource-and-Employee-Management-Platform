@@ -49,6 +49,7 @@ function showNotification(title, message) {
 function handleLogout() {
     // Set logout flag
     sessionStorage.setItem('isLoggedOut', 'true');
+    localStorage.removeItem('user');
     
     // Redirect to landing page immediately
     window.location.href = '../landing-page/index.html';

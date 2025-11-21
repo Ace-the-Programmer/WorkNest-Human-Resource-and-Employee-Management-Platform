@@ -205,12 +205,61 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 margin-bottom: 16px;
+    gap: 16px;
 }
 
 .records-title {
 font-size: 18px;
 font-weight: 700;
 color: #2C3E50;
+}
+
+.records-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1B5E20;
+    background: #E8F5E9;
+    border-radius: 999px;
+    padding: 4px 10px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.live-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4CAF50;
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.2);
+    animation: pulse 1.5s infinite;
+}
+
+.live-badge.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.update-indicator {
+    font-size: 12px;
+    color: #7F8C8D;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.update-indicator.show {
+    opacity: 1;
 }
 
 .export-buttons {
@@ -290,11 +339,40 @@ font-size: 14px;
 color: #2C3E50;
 }
 
+.attendance-table .placeholder-row td {
+    text-align: center;
+    padding: 40px 16px;
+    color: #90A4AE;
+}
+
 /* Employee Info */
 .employee-info {
 display: flex;
 align-items: center;
 gap: 12px;
+}
+
+.employee-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.employee-name {
+    font-weight: 600;
+    color: #2C3E50;
+}
+
+.department-chip {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1E88E5;
+    background: #E3F2FD;
+    border-radius: 999px;
+    padding: 2px 10px;
 }
 
 .avatar {
@@ -332,6 +410,35 @@ color: #F44336;
 .status-badge.late {
 background: #FFF9C4;
 color: #F57C00;
+}
+
+.row-highlight {
+    animation: fadeHighlight 2.5s ease;
+}
+
+.row-updated {
+    animation: fadeUpdated 2.5s ease;
+}
+
+.last-updated {
+    font-size: 12px;
+    color: #90A4AE;
+}
+
+@keyframes fadeHighlight {
+    0% { background-color: #E8F5E9; }
+    100% { background-color: transparent; }
+}
+
+@keyframes fadeUpdated {
+    0% { background-color: #FFF9C4; }
+    100% { background-color: transparent; }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(76, 175, 80, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
 }
 
 /* Pagination */
