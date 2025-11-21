@@ -286,6 +286,7 @@ body {
     background: #F8F9FA;
 }
 
+/* Leave Type Badges */
 .leave-type-badge {
     padding: 6px 12px;
     border-radius: 6px;
@@ -294,44 +295,53 @@ body {
     display: inline-block;
 }
 
-.leave-type-badge.vacation {
+.leave-type-badge.vacation,
+.leave-type-badge.vacationleave {
     background: #E3F2FD;
     color: #2196F3;
 }
 
-.leave-type-badge.sick {
-    background: #E3F2FD;
-    color: #2196F3;
+.leave-type-badge.sick,
+.leave-type-badge.sickleave {
+    background: #FFF3E0;
+    color: #F57C00;
 }
 
-.leave-type-badge.emergency {
-    background: #E3F2FD;
-    color: #2196F3;
+.leave-type-badge.emergency,
+.leave-type-badge.emergencyleave {
+    background: #FCE4EC;
+    color: #C2185B;
 }
 
+/* Status Badges - UPDATED WITH DECLINED STYLING */
 .status-badge {
     padding: 6px 12px;
-    border-radius: 12px;
+    border-radius: 20px;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 600;
     display: inline-block;
+    text-transform: capitalize;
 }
 
 .status-badge.pending {
     background: #FFF9C4;
-    color: #FFA000;
+    color: #F57F17;
+    border: 1px solid #FFF59D;
 }
 
 .status-badge.approved {
-    background: #E8F5E9;
-    color: #4CAF50;
+    background: #C8E6C9;
+    color: #2E7D32;
+    border: 1px solid #A5D6A7;
 }
 
 .status-badge.declined {
-    background: #FFEBEE;
-    color: #F44336;
+    background: #FFCDD2;
+    color: #C62828;
+    border: 1px solid #EF9A9A;
 }
 
+/* Action Button */
 .action-btn {
     padding: 8px;
     background: transparent;
@@ -352,7 +362,103 @@ body {
     height: 18px;
 }
 
-/* Responsive */
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(36, 55, 97, 0.25);
+    backdrop-filter: blur(2px);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    margin: 45px auto;
+    padding: 32px 30px 28px 30px;
+    border-radius: 18px;
+    max-width: 410px;
+    width: 94vw;
+    box-shadow: 0 10px 36px 0 rgba(80, 113, 193, 0.16);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.close-btn {
+    position: absolute;
+    right: 23px;
+    top: 16px;
+    font-size: 32px;
+    color: #6070A0;
+    cursor: pointer;
+    transition: color 0.2s cubic-bezier(.4,0,.2,1);
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #4A90E2;
+}
+
+.modal-content h2 {
+    margin-bottom: 8px;
+    font-size: 1.28rem;
+    color: #2d3759;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+    color: #385;
+    margin-top: 8px;
+}
+
+.modal-content input[type="date"],
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    border: 1.5px solid #dbe3f0;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: none;
+}
+
+.modal-content input[type="date"]:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
+    outline: none;
+    border-color: #4A90E2;
+}
+
+.modal-content button[type="submit"] {
+    margin-top: 7px;
+    background: #4A90E2;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 0;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.23s cubic-bezier(.4,0,.2,1);
+}
+
+.modal-content button[type="submit"]:hover {
+    background: #2267b6;
+}
+
+/* Responsive Design */
 @media (max-width: 1024px) {
     .leave-balance-grid {
         grid-template-columns: 1fr;
@@ -386,92 +492,15 @@ body {
         justify-content: center;
     }
 }
-/* Modal Styling */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed;
-  z-index: 999;
-  left: 0; top: 0; width: 100vw; height: 100vh;
-  background: rgba(36, 55, 97, 0.25);
-  backdrop-filter: blur(2px);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: #fff;
-  margin: 45px auto;
-  padding: 32px 30px 28px 30px;
-  border-radius: 18px;
-  max-width: 410px;
-  width: 94vw;
-  box-shadow: 0 10px 36px 0 rgba(80, 113, 193, 0.16);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.close-btn {
-  position: absolute;
-  right: 23px;
-  top: 16px;
-  font-size: 32px;
-  color: #6070A0;
-  cursor: pointer;
-  transition: color 0.2s cubic-bezier(.4,0,.2,1);
-}
-.close-btn:hover { color: #4A90E2; }
-
-.modal-content h2 {
-  margin-bottom: 8px;
-  font-size: 1.28rem;
-  color: #2d3759;
-}
-
-.modal-content label {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 15px;
-  color: #385;
-  margin-top: 8px;
-}
-
-.modal-content input[type="date"],
-.modal-content select,
-.modal-content textarea {
-  width: 100%;
-  padding: 8px 10px;
-  margin-bottom: 6px;
-  border: 1.5px solid #dbe3f0;
-  border-radius: 6px;
-  font-size: 16px;
-  font-family: inherit;
-  resize: none;
-}
-
-.modal-content button[type="submit"] {
-  margin-top: 7px;
-  background: #4A90E2;
-  color: #fff;
-  font-weight: 600;
-  font-size: 16px;
-  border: none;
-  border-radius: 6px;
-  padding: 12px 0;
-  width: 100%;
-  cursor: pointer;
-  transition: background 0.23s cubic-bezier(.4,0,.2,1);
-}
-.modal-content button[type="submit"]:hover {
-  background: #2267b6;
-}
 
 @media (max-width: 520px) {
-  .modal-content { padding: 18px 5vw; }
+    .modal-content {
+        padding: 18px 5vw;
+    }
 }
 
-/* Hide modal scrollbar for a cleaner look */
-.modal-content::-webkit-scrollbar, .modal::-webkit-scrollbar {
-  display: none;
+/* Hide scrollbar for cleaner look */
+.modal-content::-webkit-scrollbar,
+.modal::-webkit-scrollbar {
+    display: none;
 }

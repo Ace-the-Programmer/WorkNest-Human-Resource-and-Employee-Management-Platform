@@ -16,7 +16,6 @@
                 <span class="logo-subtitle">Employee Portal</span>
             </div>
         </div>
-
         <nav class="nav-menu">
             <a href="employee-dashboard.html" class="nav-item">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -58,7 +57,6 @@
                 Profile Settings
             </a>
         </nav>
-
         <a href="#" onclick="handleLogout(); return false;" class="logout-btn">
             <svg class="logout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -86,46 +84,26 @@
             </button>
         </div>
 
-        <!-- Leave Balance Cards -->
-        <div class="leave-balance-grid">
+        <!-- Only ONE Leave Balance Card -->
+        <div class="leave-balance-grid" style="grid-template-columns: 1fr; max-width: 500px;">
             <div class="balance-card">
                 <div class="balance-header">
-                    <h3 class="balance-title">Vacation Leave</h3>
-                    <p class="balance-count"><span class="balance-number">10</span> of 15 days</p>
+                    <h3 class="balance-title">Available Leave Days</h3>
+                    <p class="balance-count"><span class="balance-number">2</span> of 2 days</p>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: 66.67%;"></div>
+                    <div class="progress-fill" style="width: 100%;"></div>
                 </div>
-                <p class="balance-label">Remaining balance</p>
-            </div>
-
-            <div class="balance-card">
-                <div class="balance-header">
-                    <h3 class="balance-title">Sick Leave</h3>
-                    <p class="balance-count"><span class="balance-number">8</span> of 10 days</p>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 80%;"></div>
-                </div>
-                <p class="balance-label">Remaining balance</p>
-            </div>
-
-            <div class="balance-card">
-                <div class="balance-header">
-                    <h3 class="balance-title">Emergency Leave</h3>
-                    <p class="balance-count"><span class="balance-number">3</span> of 5 days</p>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 60%;"></div>
-                </div>
-                <p class="balance-label">Remaining balance</p>
+                <p class="balance-label">
+                    Remaining balance (Vacation & Sick Leave only)<br>
+                    <span style="font-size: 12px; color: #888;">Emergency & Maternity: unlimited</span>
+                </p>
             </div>
         </div>
 
         <!-- Leave History -->
         <div class="leave-history">
             <h2 class="section-title">Leave History</h2>
-            
             <div class="table-container">
                 <table class="leave-table">
                     <thead>
@@ -136,119 +114,39 @@
                             <th>Total Days</th>
                             <th>Status</th>
                             <th>Remarks</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><span class="leave-type-badge vacation">Vacation Leave</span></td>
-                            <td>Jan 15, 2025</td>
-                            <td>Feb 10 - Feb 14</td>
-                            <td>5 days</td>
-                            <td><span class="status-badge pending">Pending</span></td>
-                            <td>Family vacation</td>
-                            <td>
-                                <button class="action-btn">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                        <circle cx="12" cy="12" r="3"/>
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="leave-type-badge sick">Sick Leave</span></td>
-                            <td>Jan 5, 2025</td>
-                            <td>Jan 8 - Jan 9</td>
-                            <td>2 days</td>
-                            <td><span class="status-badge approved">Approved</span></td>
-                            <td>Medical checkup</td>
-                            <td>
-                                <button class="action-btn">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                        <circle cx="12" cy="12" r="3"/>
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="leave-type-badge emergency">Emergency Leave</span></td>
-                            <td>Dec 20, 2024</td>
-                            <td>Dec 22</td>
-                            <td>1 days</td>
-                            <td><span class="status-badge approved">Approved</span></td>
-                            <td>Family emergency</td>
-                            <td>
-                                <button class="action-btn">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                        <circle cx="12" cy="12" r="3"/>
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="leave-type-badge vacation">Vacation Leave</span></td>
-                            <td>Dec 1, 2024</td>
-                            <td>Dec 25 - Dec 27</td>
-                            <td>3 days</td>
-                            <td><span class="status-badge approved">Approved</span></td>
-                            <td>Holiday travel</td>
-                            <td>
-                                <button class="action-btn">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                        <circle cx="12" cy="12" r="3"/>
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="leave-type-badge sick">Sick Leave</span></td>
-                            <td>Nov 15, 2024</td>
-                            <td>Nov 18 - Nov 19</td>
-                            <td>2 days</td>
-                            <td><span class="status-badge declined">Declined</span></td>
-                            <td>Doctor's appointment</td>
-                            <td>
-                                <button class="action-btn">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                        <circle cx="12" cy="12" r="3"/>
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
+                        <!-- Populated dynamically by JS -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-<div id="leaveModal" class="modal" style="display:none;">
-  <div class="modal-content">
-      <span class="close-btn" id="closeLeaveModal">&times;</span>
-      <h2>Apply for Leave</h2>
-      <form id="leaveRequestForm">
-        <label>Leave Type:</label>
-        <select id="leaveType" required>
-          <option value="">Select</option>
-          <option value="Vacation Leave">Vacation Leave</option>
-          <option value="Sick Leave">Sick Leave</option>
-          <option value="Emergency Leave">Emergency     Leave</option>
-        </select>
-        <label>Date From:</label>
-        <input type="date" id="leaveFrom" required>
-        <label>Date To:</label>
-        <input type="date" id="leaveTo" required>
-        <label>Reason:</label>
-        <textarea id="leaveReason" rows="3" required></textarea>
-        <button type="submit">Submit Request</button>
-      </form>
-  </div>
-</div>
+    <div id="leaveModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-btn" id="closeLeaveModal">&times;</span>
+        <h2>Apply for Leave</h2>
+        <form id="leaveRequestForm">
+            <label>Leave Type:</label>
+            <select id="leaveType" required>
+                <option value="">Select</option>
+                <option value="Vacation Leave">Vacation Leave</option>
+                <option value="Sick Leave">Sick Leave</option>
+                <option value="Emergency Leave">Emergency Leave</option>
+                <option value="Maternity Leave">Maternity Leave</option>
+            </select>
+            <label>Date From:</label>
+            <input type="date" id="leaveFrom" required>
+            <label>Date To:</label>
+            <input type="date" id="leaveTo" required>
+            <label>Reason:</label>
+            <textarea id="leaveReason" rows="3" required></textarea>
+            <button type="submit">Submit Request</button>
+        </form>
+    </div>
+    </div>
     <script src="employee-leave-requests.js"></script>
-
     <script src="employee-dashboard.js"></script>
 </body>
 </html>

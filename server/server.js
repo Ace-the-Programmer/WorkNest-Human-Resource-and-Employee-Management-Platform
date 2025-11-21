@@ -41,45 +41,126 @@ app.get('/', (req, res) => {
 });
 
 /* ------- LEAVE REQUESTS MODULE ------- */
-// CREATE Leave Request (employee-side)
+// CREATE Leave Request (employee-side) - FIXED with proper status default
 app.post('/api/leave-requests', (req, res) => {
     const { employee_id, leave_type, start_date, end_date, reason } = req.body;
+    
+    // Validate required fields
+    if (!employee_id || !leave_type || !start_date || !end_date) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+    
     db.query(
-        'INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, reason, status, date_filed) VALUES (?, ?, ?, ?, ?, "Pending", NOW())',
-        [employee_id, leave_type, start_date, end_date, reason],
+        'INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, reason, status, created_at) VALUES (?, ?, ?, ?, ?, "Pending", NOW())',
+        [employee_id, leave_type, start_date, end_date, reason || ''],
         (err, result) => {
-            if (err) return res.status(500).json({ error: err });
-            res.json({ id: result.insertId, ...req.body, status: "Pending", date_filed: new Date() });
+            if (err) {
+                console.error('Error creating leave request:', err);
+                return res.status(500).json({ error: err.sqlMessage || 'Failed to create leave request' });
+            }
+            console.log('Leave request created with ID:', result.insertId);
+            res.json({ 
+                id: result.insertId, 
+                employee_id,
+                leave_type,
+                start_date,
+                end_date,
+                reason: reason || '',
+                status: "Pending", 
+                created_at: new Date() 
+            });
         }
     );
 });
 
 // GET ALL Leave Requests (admin-side)
 app.get('/api/leave-requests', (req, res) => {
-    db.query('SELECT * FROM leave_requests', (err, results) => {
-        if (err) return res.status(500).json({ error: err });
+    db.query('SELECT * FROM leave_requests ORDER BY created_at DESC', (err, results) => {
+        if (err) {
+            console.error('Error fetching leave requests:', err);
+            return res.status(500).json({ error: err });
+        }
         res.json(results);
     });
 });
 
-// UPDATE STATUS ONLY (admin approve/decline)
+// UPDATE STATUS ONLY (admin approve/decline) - FIXED with validation
 app.put('/api/leave-requests/:id', (req, res) => {
     const { status } = req.body;
+    
+    // Validate status
+    const validStatuses = ['Pending', 'Approved', 'Declined'];
+    if (!validStatuses.includes(status)) {
+        return res.status(400).json({ error: 'Invalid status value' });
+    }
+    
     db.query(
         'UPDATE leave_requests SET status=? WHERE id=?',
         [status, req.params.id],
         (err, result) => {
-            if (err) return res.status(500).json({ error: err });
-            res.json({ message: 'Leave request status updated' });
+            if (err) {
+                console.error('Error updating leave request status:', err);
+                return res.status(500).json({ error: err });
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: 'Leave request not found' });
+            }
+            console.log(`Leave request ${req.params.id} status updated to: ${status}`);
+            res.json({ message: 'Leave request status updated', status });
         }
     );
 });
 
 // GET by employee_id (employee-side)
 app.get('/api/leave-requests/employee/:employee_id', (req, res) => {
-    db.query('SELECT * FROM leave_requests WHERE employee_id=?', [req.params.employee_id], (err, results) => {
-        if (err) return res.status(500).json({ error: err });
-        res.json(results);
+    db.query(
+        'SELECT * FROM leave_requests WHERE employee_id=? ORDER BY created_at DESC', 
+        [req.params.employee_id], 
+        (err, results) => {
+            if (err) {
+                console.error('Error fetching employee leave requests:', err);
+                return res.status(500).json({ error: err });
+            }
+            res.json(results);
+        }
+    );
+});
+
+// GET Leave Balance by Employee ID (UPDATED - Only 2 days total, excludes Emergency & Maternity)
+app.get('/api/leave-balance/:employee_id', (req, res) => {
+    const employeeId = req.params.employee_id;
+    
+    // Total available leave days for Vacation and Sick Leave combined
+    const TOTAL_LEAVE_DAYS = 2;
+    
+    // Query to get sum of approved leave days (EXCLUDING Emergency and Maternity Leave)
+    const query = `
+        SELECT 
+            SUM(DATEDIFF(end_date, start_date) + 1) as used_days
+        FROM leave_requests
+        WHERE employee_id = ? 
+        AND status = 'Approved'
+        AND leave_type NOT LIKE '%Emergency%'
+        AND leave_type NOT LIKE '%Maternity%'
+    `;
+    
+    db.query(query, [employeeId], (err, results) => {
+        if (err) {
+            console.error('Error fetching leave balance:', err);
+            return res.status(500).json({ error: err });
+        }
+        
+        const usedDays = (results[0] && results[0].used_days) ? parseInt(results[0].used_days) : 0;
+        const remainingDays = Math.max(0, TOTAL_LEAVE_DAYS - usedDays);
+        
+        const balance = {
+            total: TOTAL_LEAVE_DAYS,
+            used: usedDays,
+            remaining: remainingDays
+        };
+        
+        console.log('Leave balance calculated for employee:', employeeId, balance);
+        res.json(balance);
     });
 });
 
@@ -212,10 +293,10 @@ app.post('/leave_requests', (req, res) => {
     const { employee_id, leave_type, start_date, end_date, reason, status } = req.body;
     db.query(
         'INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, reason, status) VALUES (?, ?, ?, ?, ?, ?)',
-        [employee_id, leave_type, start_date, end_date, reason, status],
+        [employee_id, leave_type, start_date, end_date, reason, status || 'Pending'],
         (err, result) => {
             if (err) return res.status(500).json({ error: err });
-            res.json({ id: result.insertId, employee_id, leave_type, start_date, end_date, reason, status });
+            res.json({ id: result.insertId, employee_id, leave_type, start_date, end_date, reason, status: status || 'Pending' });
         }
     );
 });
@@ -471,7 +552,6 @@ app.post('/signup', (req, res) => {
     const { first_name, last_name, email, password, account_type, department_id } = req.body;
     console.log('Signup request received:', { first_name, last_name, email, account_type, department_id });
 
-    // Normalize account_type for comparison
     const type = (account_type || '').toLowerCase();
 
     if (account_type === 'HR/Admin') {
