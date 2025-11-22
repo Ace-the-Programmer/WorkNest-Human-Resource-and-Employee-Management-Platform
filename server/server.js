@@ -85,18 +85,35 @@ app.delete('/departments/:id', (req, res) => {
 
 // Use this version to allow filtering employees by department from the frontend
 app.get('/employees', (req, res) => {
-    let sql = 'SELECT * FROM employees';
-    const params = [];
-    if (req.query.department_id) {
-        sql += ' WHERE department_id = ?';
-        params.push(req.query.department_id);
-    }
-    db.query(sql, params, (err, results) => {
-        if (err) return res.status(500).json({ error: err });
-        res.json(results);
-    });
-});
+    const { department_name } = req.query;
 
+    if (department_name) {
+        // Filter employees WHERE their department_name matches exactly
+        const query = `
+            SELECT e.*, u.department_name 
+            FROM employees e
+            LEFT JOIN users u ON e.id = u.employee_id
+            WHERE u.department_name = ?
+        `;
+        db.query(query, [department_name], (err, results) => {
+            if (err) {
+                console.error('Error fetching employees:', err);
+                return res.status(500).json({ error: err.message });
+            }
+            res.json(results);
+        });
+    } else {
+        // Return all employees if no filter
+        const query = 'SELECT * FROM employees';
+        db.query(query, (err, results) => {
+            if (err) {
+                console.error('Error fetching employees:', err);
+                return res.status(500).json({ error: err.message });
+            }
+            res.json(results);
+        });
+    }
+});
 /* ------- LEAVE REQUESTS MODULE ------- */
 // Create new employee (auto-add department if needed)
 app.post('/employees', (req, res) => {

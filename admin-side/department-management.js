@@ -5,24 +5,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cardsSection = document.querySelector('.dept-cards-section');
     const deptTableBody = document.querySelector('.dept-table tbody');
-    const addBtn = document.querySelector('.add-btn');
     const searchInput = document.querySelector('.search-input');
 
-    // Hide "Add Department" button
-    if (addBtn) addBtn.style.display = 'none';
+    let hrAdmin = null; // Store HR/Admin info
 
-    // Utility: Get current user (replace this with your real session/user logic)
-    function getCurrentUser() {
-        // For demo/testing: change this to "employee" if needed
-        return {
-            role: 'admin', // 'admin' for HR/Admin, 'employee' for regular user
-            department_id: null // for employee, set this
-        };
+    // --- Fetch HR/Admin user ---
+    async function fetchHRAdmin() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/users?role=HR/Admin`);
+            const users = await response.json();
+            if (users.length > 0) {
+                hrAdmin = users[0]; // Get the first HR/Admin user
+            }
+        } catch (error) {
+            console.error('Error fetching HR/Admin:', error);
+        }
     }
 
     // --- Fetch & Render Departments ---
     async function loadDepartments() {
         try {
+            await fetchHRAdmin(); // Fetch HR first
+
             const response = await fetch(`${API_BASE_URL}/departments`);
             const departments = await response.json();
 
@@ -30,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             renderDepartmentTable(departments);
         } catch (error) {
             cardsSection.innerHTML = "<p>Unable to load departments.</p>";
-            deptTableBody.innerHTML = "<tr><td colspan='5'>Unable to load departments.</td></tr>";
+            deptTableBody.innerHTML = "<tr><td colspan='4'>Unable to load departments.</td></tr>";
         }
     }
 
@@ -43,34 +47,35 @@ document.addEventListener('DOMContentLoaded', () => {
             cardDiv.innerHTML = `
                 <div class="dept-card-header">
                     <div class="dept-icon-box blue-dept">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
-                    </div>
-                    <div class="dept-card-actions">
-                        <button class="view-details-btn" data-id="${dept.id}">View Details</button>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M3 9h18M9 21V9"/>
+                        </svg>
                     </div>
                 </div>
                 <h3 class="dept-card-title">${dept.name || 'No name'}</h3>
-                <p class="dept-card-desc">${dept.description || ''}</p>
                 <div class="dept-card-info">
                     <div class="dept-info-item">
-                        <span class="info-label">Manager</span>
-                        <span class="info-value">${dept.manager || 'Not set'}</span>
+                        <span class="info-label">HR/Admin</span>
+                        <span class="info-value">${hrAdmin ? hrAdmin.username : 'Not set'}</span>
                     </div>
                     <div class="dept-info-item">
                         <span class="info-label">Total Employees</span>
                         <span class="info-value" id="emp-count-${dept.id}">...</span>
                     </div>
                 </div>
+                <button class="view-details-btn" data-id="${dept.id}">View Details</button>
             `;
             cardsSection.appendChild(cardDiv);
 
             // Fetch and render employee count
-            fetch(`${API_BASE_URL}/employees?department_id=${dept.id}`)
+            fetch(`${API_BASE_URL}/employees?department_name=${encodeURIComponent(dept.name)}`)
                 .then(r => r.json())
                 .then(emps => {
                     const countEl = document.getElementById(`emp-count-${dept.id}`);
                     if (countEl) countEl.textContent = emps.length;
-                });
+                })
+                .catch(err => console.error('Error fetching employees:', err));
 
             // View Details event
             cardDiv.querySelector('.view-details-btn').addEventListener('click', () => {
@@ -86,9 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${dept.name || 'No name'}</td>
-                <td>${dept.manager || 'Not set'}</td>
+                <td>${hrAdmin ? hrAdmin.username : 'Not set'}</td>
                 <td><span class="employee-count" id="table-count-${dept.id}">...</span></td>
-                <td>${dept.description || ''}</td>
                 <td>
                     <button class="view-details-btn" data-id="${dept.id}">View Details</button>
                 </td>
@@ -96,12 +100,13 @@ document.addEventListener('DOMContentLoaded', () => {
             deptTableBody.appendChild(tr);
 
             // Fetch and render employee count in table
-            fetch(`${API_BASE_URL}/employees?department_id=${dept.id}`)
+            fetch(`${API_BASE_URL}/employees?department_name=${encodeURIComponent(dept.name)}`)
                 .then(r => r.json())
                 .then(emps => {
                     const countEl = document.getElementById(`table-count-${dept.id}`);
                     if (countEl) countEl.textContent = `${emps.length} employees`;
-                });
+                })
+                .catch(err => console.error('Error fetching employees:', err));
 
             // View Details event
             tr.querySelector('.view-details-btn').addEventListener('click', () => {
@@ -113,23 +118,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- View Department Details ---
     async function viewDepartmentDetails(dept) {
         try {
-            const res = await fetch(`${API_BASE_URL}/employees?department_id=${dept.id}`);
+            const res = await fetch(`${API_BASE_URL}/employees?department_name=${encodeURIComponent(dept.name)}`);
             const employees = await res.json();
 
-            // Show details in a simple modal/popup/alert (replace with a nicer modal if you want)
-            let html = `<h2>${dept.name}</h2>
-            <p>${dept.description || ''}</p>
-            <p>Manager: ${dept.manager || 'Not set'}</p>
-            <h3>Employees:</h3>
-            <ul>`;
+            // Build modal content
+            let html = `
+                <h2>${dept.name}</h2>
+                <p><strong>HR/Admin:</strong> ${hrAdmin ? hrAdmin.username : 'Not set'}</p>
+                <p><strong>Total Employees:</strong> ${employees.length}</p>
+                <h3>Employees:</h3>
+            `;
+
             if (employees.length === 0) {
-                html += `<li>No employees found.</li>`;
+                html += `<p>No employees found in this department.</p>`;
             } else {
+                html += '<ul>';
                 for (const emp of employees) {
-                    html += `<li>${emp.first_name || ''} ${emp.last_name || ''} (${emp.position || ''})</li>`;
+                    html += `<li>${emp.first_name || ''} ${emp.last_name || ''} (${emp.position || 'N/A'})</li>`;
                 }
+                html += '</ul>';
             }
-            html += '</ul>';
 
             showModal(html);
         } catch (error) {
@@ -137,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Simple Modal (replace with your own prettier modal if you have one) ---
+    // --- Simple Modal ---
     function showModal(contentHtml) {
         let modal = document.getElementById('dept-modal');
         if (!modal) {
@@ -152,12 +160,12 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.style.borderRadius = '12px';
             modal.style.boxShadow = '0 8px 32px rgba(0,0,0,0.2)';
             modal.style.zIndex = '9999';
-            modal.style.maxWidth = '90vw';
-            modal.style.maxHeight = '90vh';
+            modal.style.maxWidth = '600px';
+            modal.style.maxHeight = '80vh';
             modal.style.overflow = 'auto';
             document.body.appendChild(modal);
         }
-        modal.innerHTML = contentHtml + '<br><button onclick="document.getElementById(\'dept-modal\').remove()">Close</button>';
+        modal.innerHTML = contentHtml + '<br><br><button onclick="document.getElementById(\'dept-modal\').remove()" style="padding: 8px 16px; background: #4F46E5; color: white; border: none; border-radius: 6px; cursor: pointer;">Close</button>';
     }
 
     // --- Search Filter ---
