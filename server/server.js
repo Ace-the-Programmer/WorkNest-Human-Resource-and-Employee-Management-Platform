@@ -819,10 +819,17 @@ app.post('/users', (req, res) => {
 });
 
 app.get('/users', (req, res) => {
-    db.query('SELECT * FROM users', (err, results) => {
-        if (err) return res.status(500).json({ error: err });
-        res.json(results);
-    });
+  const { role } = req.query;
+  let sql = 'SELECT * FROM users';
+  let params = [];
+  if (role) {
+    sql += ' WHERE role = ?';
+    params.push(role);
+  }
+  db.query(sql, params, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
 });
 
 app.get('/users/:id', (req, res) => {

@@ -104,62 +104,42 @@
             Logout
         </a>
     </div>
-    <!-- Main Content -->
+ <!-- Main Content -->
     <div class="main-content">
-        <!-- Page Header -->
         <div class="page-header">
             <div class="header-content">
                 <h1 class="page-title">Employee Management</h1>
-                <p class="page-subtitle">Manage your workforce and employee records</p>
+                <p class="page-subtitle">List of all employees (pulled from users)</p>
             </div>
-            <button class="add-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"/>
-                    <line x1="5" y1="12" x2="19" y2="12"/>
-                </svg>
-                Add Employee
-            </button>
         </div>
-        <!-- Filters Section -->
         <div class="filters-section">
             <div class="search-box">
-                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="m21 21-4.35-4.35"/>
-                </svg>
                 <input type="text" placeholder="Search employees..." class="search-input">
             </div>
             <div class="filter-group">
-                <select class="filter-select">
-                    <option>All Departments</option>
-                    <option>Information Technology</option>
-                    <option>Human Resources</option>
-                    <option>Finance</option>
-                    <option>Marketing</option>
-                    <option>Operations</option>
+                <select class="filter-select" id="deptFilter">
+                    <option value="">All Departments</option>
                 </select>
-                <select class="filter-select">
-                    <option>All Status</option>
-                    <option>Active</option>
-                    <option>Inactive</option>
+                <select class="filter-select" id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
                 </select>
             </div>
         </div>
-        <!-- Employee Table -->
         <div class="table-container">
             <table class="employee-table">
                 <thead>
                     <tr>
-                        <th>Employee</th>
-                        <th>Employee ID</th>
-                        <th>Department</th>
-                        <th>Position</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>EMPLOYEE</th>
+                        <th>USER ID</th>
+                        <th>DEPARTMENT</th>
+                        <th>STATUS</th>
+                        <th>ACTIONS</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- This will be filled by JS -->
+                    <!-- Filled by JS -->
                 </tbody>
             </table>
         </div>
@@ -167,35 +147,12 @@
         <div class="pagination">
             <div class="pagination-info">Showing 1-10 of 10 employees</div>
             <div class="pagination-controls">
-                <button class="page-btn" disabled>Previous</button>
-                <button class="page-btn">Next</button>
+                <button class="page-btn prev" disabled>Previous</button>
+                <button class="page-btn next">Next</button>
             </div>
         </div>
     </div>
- <!-- Add Employee Modal -->
-<div id="addEmployeeModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <span class="close" id="closeModal">&times;</span>
-    <h2 id="modalTitle">Add New Employee</h2>
-    <form id="addEmployeeForm">
-      <input type="text" name="first_name" placeholder="First Name" required />
-      <input type="text" name="last_name" placeholder="Last Name" required />
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="text" name="department_id" placeholder="Department ID" required />
-      <input type="text" name="position" placeholder="Position" required />
-      <input type="date" name="date_hired" placeholder="Date Hired" required />
-      <input type="number" step="0.01" name="salary" placeholder="Salary" required />
-      <input type="password" name="password" placeholder="Password" required />
-    <select name="status" required>
-        <option value="Active">Active</option>
-        <option value="Inactive">Inactive</option>
-    </select>
-      <button type="submit" id="submitBtn">Add Employee</button>
-    </form>
-  </div>
-</div>
-<script src="employee-management.js"></script>
-<script src="admin-dashboard.js"></script>
-
+    <script src="employee-management.js"></script>
+    <script src="admin-dashboard.js"></script>
 </body>
 </html>
